@@ -237,9 +237,9 @@ function app() {
         },
           _searchQuery: function(changeEvent) {
             this.setState({search:'false'})
-
+            var label = changeEvent.label
             var query = changeEvent.value
-            location.hash = `${this.props.lat}/${this.props.lng}/${query}`
+            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
           
         },
 
@@ -258,6 +258,7 @@ function app() {
             }
             return (
                 <div className="nextContainer">
+                    <button onClick={this._clicked} className="dashButton">d</button>
                   <div className="header"><h1 >Dump<div className="title">{this.props.name} donation</div></h1></div>
                     <Select 
                         className="select" 
@@ -340,19 +341,19 @@ function app() {
                 content = this._getSteps()
                 arrow="\u25BC"
                 newName ="mapNone"
-                styleObj={width:'32%', marginLeft: 0, marginTop: 0, left:'6.5%', fontSize: '24px'}
-                 styleObjTwo={width:'5%', left: '1.2%'}
+                styleObj={width:'33%', marginLeft: 0, marginTop: 0, left:'5.72%', fontSize: '24px'}
+                 styleObjTwo={height: '5%', width:'4%', left: '1.2%', marginRight: '0%'}
             }
           
             return (
                 <div>
-                <div style={styleObjTwo} className="dirTitle"> <button className="buttonDir" onClick={this._clicked}>{arrow} </button> <div className="dirTitleDirect">{this.state.directions}</div></div>
-                <h1 style={styleObj} className="dirH1"> <div className="origin">{this.props.origin}</div> to <div className="origin">{this.props.address}</div></h1>
-                <div className="directions">
-                {content}
-                </div>
-                <div  className={newName}></div>
-                 <div className="pano"></div>
+                    <div style={styleObjTwo} className="dirTitle"> <button className="buttonDir" onClick={this._clicked}>{arrow} </button> <div className="dirTitleDirect">{this.state.directions}</div></div>
+                    <h1 style={styleObj} className="dirH1"> <div className="origin">{this.props.origin}</div> to <div className="origin">{this.props.address}</div></h1>
+                    <div className="directions">
+                    {content}
+                    </div>
+                    <div  className={newName}></div>
+                     <div className="pano"></div>
                 </div>
                 )
         }
@@ -369,8 +370,25 @@ function app() {
 
       	render: function() {
       		return (
-      			<div className="big">
-      <img className="loadingGifTwo" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
+                <div>
+                    <button onClick={this._clicked} className="dashButton">d</button>
+                    <div className="header"><h1>Dump<div className="title"> it!</div></h1></div>
+                    <Select 
+                        className="select" 
+                        lat={this.props.lat} 
+                        lng={this.props.lng} 
+                        tc={this.props.tc} 
+                        fc={this.props.fc} 
+                        rc={this.props.rc} 
+                        lc={this.props.lc} 
+                        yelpData={this.props.yelpData} 
+                        updater={this._updater}  
+                        name="form-field-name" 
+                        value="" 
+                        options={list} 
+                        onChange={this._searchQuery}    />
+      			
+                    <img className="loadingGifTwo" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
 
       			</div>
       			)
@@ -452,13 +470,9 @@ function app() {
 
           return(
               <div className="nextContainer">
-              <button onClick={this._clicked} className="dashButton">D</button>
-              <div style={navObj} className="navBar"> 
-              <div className="navEl"> Near Me </div> 
-               <div className="navEl"> Clothing Donation </div> 
-                <div className="navEl"> Food Donation </div> 
-                 <div className="navEl"> Toy Donation </div> 
-                  <div className="navEl"> Recycling </div> 
+              <button onClick={this._clicked} className="dashButton">d</button>
+              <div style={navObj} className="openSource"> 
+                <div> Dump is an open source application. <br/>If you would like to contribute to our database please send queries or suggestions to <a className="boxLink" href=""><div className="boxLinkText">katrina@dump.com</div></a>. </div>
                </div>
                   <div className="header"><h1 style={styleObj}>Dump</h1></div>
                     <Select 
@@ -486,7 +500,7 @@ function app() {
         _searchQuery: function(changeEvent) {
             this.setState({search:'false'})
                 console.log('change', changeEvent)
-                var label = changeEvent.label
+            var label = changeEvent.label
             var query= changeEvent.value
 
            
@@ -731,10 +745,10 @@ function app() {
          
           _searchQuery: function(changeEvent) {
             this.setState({search:'false'})
-
+            var label = changeEvent.label
             var query = changeEvent.value
            
-            location.hash = `${this.props.lat}/${this.props.lng}/${query}`
+            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
             query = ''
         },
 
@@ -755,9 +769,9 @@ function app() {
             if (this.state.list > 1) {
                 styleObj.display = "inline-block"
             }
+            var zip={}
             
-            var zip ={'display': 'none'}
-            if(this.props.name === 'paper' && this.props.label === 'plastic' && this.props.name === 'can' ){
+            if(this.props.name === 'paper' && this.props.name === 'plastic' && this.props.label === 'can' ){
                 zip.display= 'inline-block'
             }
             if (this.state.delete) {
@@ -765,6 +779,15 @@ function app() {
             }
             return (
             <div className="nextContainer">
+               <div style={zip} className="neighborhood">
+                <button onClick={this._delete} className="buttonX">x </button> 
+                     * It looks like your zip code offers recycling pick-up for {this.props.label}! 
+                    <p></p> 
+                    Click 
+                     <a href="http://mycity.houstontx.gov/public/" target="_blank" className="boxLink"> <div className="boxLinkText">here</div> </a> 
+                     for scheduling info!  
+            </div>
+                <button onClick={this._clicked} className="dashButton">d</button>
                   <div className="header"><h1>Dump<div className="title">recycling centers</div></h1></div>
                     <Select 
                         className="select" 
@@ -780,14 +803,6 @@ function app() {
                         value="" 
                         options={list} 
                         onChange={this._searchQuery}/>
-            <div style={zip} className="neighborhood">
-                <button onClick={this._delete} className="buttonX">x</button> 
-                    * It looks like you live in a zip code which offers recycling pick-up for {this.props.label}! 
-                    <p></p> 
-                    Click 
-                     <a href="http://mycity.houstontx.gov/public/" target="_blank" className="boxLink"> <div className="boxLinkText">here</div> </a> 
-                     for scheduling info!  
-            </div>
                 <div className ="errorContainer"></div>
                 <div className="listingContainer">
                       {this._findMin(data)}
@@ -983,10 +998,10 @@ function app() {
                 DOM.render(<ClothingGrid name={query} lat={lat} lng={lng} tc={toyData} rc={rc} yelpData={yelpData} fc={foodData} jsonData={toyData}/>, document.querySelector('.container'))
             }
             if (query === "food") {
-                DOM.render(<ClothingGrid name={query} lat={this.props.lat} lng={lng} rc={rc} yelpData={yelpData} fc={foodData} jsonData={foodData}/>, document.querySelector('.container'))
+                DOM.render(<ClothingGrid name={query} lat={lat} lng={lng} rc={rc} yelpData={yelpData} fc={foodData} jsonData={foodData}/>, document.querySelector('.container'))
             }
             if (query === "dump") {
-                DOM.render(<DumpView lat={lat} lng={lng} jsonData={data}/>, document.querySelector('.container'))
+                DOM.render(<DumpView lat={lat} lng={lng} jsonData={data} yelpData={yelpData} fc={foodData} jsonData={foodData}/>, document.querySelector('.container'))
             }
             if (query === "body") {
                 DOM.render(<NineView  lat={lat} lng={lng} />, document.querySelector('.container'))
@@ -1010,7 +1025,7 @@ function app() {
                     }
                 }
            
-                DOM.render(<ListingGrid label={label} lat={lat} lng={lng} rc={rc} tc={toyData} fc={foodData} yelpData={yelpData} jsonData={data}/>, document.querySelector('.container'))
+                DOM.render(<ListingGrid label={label} name={query} lat={lat} lng={lng} rc={rc} tc={toyData} fc={foodData} yelpData={yelpData} jsonData={data}/>, document.querySelector('.container'))
                 
                                        
             }
