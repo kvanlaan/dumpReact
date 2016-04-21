@@ -71,25 +71,17 @@ function app() {
             var lat=this.props.userLat
             var lng=this.props.userLon
             var add = this.props.listing.location.address[0]
-            console.log(add)
             var nameParts= name.split('/')
                 name = nameParts[0]
            window.location.hash = lat + "/" + lng + "/map/" + add
         },
 
         _getMap: function(clickEvent) {
-            var buttonDir = {fontSize: "15px", marginTop: "3%", marginBottom: "2%"}
+         
             return (
-            <div className="imgContainer">
-             <button style={buttonDir} data-index={this.props.color} data-locLat={this.props.listing.location.coordinate.latitude} data-locLng={this.props.listing.location.coordinate.longitude} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
-                <MapView 
-                      name={this.props.listing.name} 
-                      locLat={this.props.listing.location.coordinate.latitude} 
-                      locLng={this.props.listing.location.coordinate.longitude} 
-                      lat={this.props.userLat} 
-                      lng={this.props.userLon}>
-                </MapView>
-            </div>
+
+                <img className="mapTwo" src="mapPlace.png"/>
+        
                     )
         },
 
@@ -100,44 +92,43 @@ function app() {
         },
         render: function() {
             var triangle = ''
-                 if(this.state.more === 'more'){
-                triangle ="\u25B6"
-            }
-            if (this.state.more === 'less'){
-                triangle="\u25BC"
-            }
-           
             var url = this.props.listing.image_url
-
             var buttonObj = {}
-            if (this.props.color === 0) {
-                buttonObj = { display: "none" }
-            }
             var detailObj = {}
-            if (this.state.more === 'less') {
-                detailObj = { display: 'block' }
-            } else {
-                detailObj = { display: "none" }
-            }
             var content = ''
             var closest = ''
             var styleObj ={}
-            if(this.props.color >0) {
-              
-              styleObj={width: "100%"}
-          }
-            if(this.props.color <1) {
-                content = this._getMap()
-                closest = this._getClosest()
-            } 
+            var className ="infoDiv"
+            var classNameMat ="infoDivMat"
             var infoType ={fontWeight: 'bold', textDecoration: 'underline', marginLeft: 0}
             var cat =this.props.listing.categories[0]
             cat =cat[0]
-            console.log('category', cat)
             var open = ''
+            var buttonDir = {fontSize: "15px", marginTop: "3%", marginBottom: "2%"}
+            if(this.state.more === 'more'){
+                triangle ="\u25B6"
+                }
+            if (this.state.more === 'less') {
+                detailObj = { display: 'block' }
+                triangle="\u25BC"
+                } else {
+                detailObj = { display: "none" }
+                 }
+           
+            if(this.props.color >0) {    
+              styleObj={width: "100%"}
+                }
+            if(this.props.color <1) {
+                content = this._getMap()
+                closest = this._getClosest()
+                className = 'infoDivNone'
+                classNameMat ='infoDivNone'
+                 styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
+              } 
+          
             if(this.props.listing.is_closed){
                 open = 'now closed'
-            }else {
+                }else {
                 open = 'open now!'
             }
             return (
@@ -167,9 +158,16 @@ function app() {
                 </div>
                      <div className="info" style={detailObj}>
                     <div style={styleObj}className="infoWords">
+                    <div className={className}>
                     <div style={infoType}>Categories:</div> {cat} <br/>
+                    </div>
+                     <div className={className}>
                         <div style={infoType}>Rating:</div> <img src={this.props.listing.rating_img_url}/> <br/>
+                    </div>
+                           <div className={classNameMat}>
+
                           <div style={infoType}> url:</div>{this.props.listing.url} <br/>
+                                 </div>
                           </div>
                             {content}
                         </div>
@@ -260,7 +258,7 @@ function app() {
             }
             return (
                 <div className="nextContainer">
-                  <div className="header"><h1 >Dump/donate</h1></div>
+                  <div className="header"><h1 >Dump<div className="title">{this.props.name} donation</div></h1></div>
                     <Select 
                         className="select" 
                         lat={this.props.lat} 
@@ -297,16 +295,19 @@ function app() {
     var DirectionsView = React.createClass({
         getInitialState: function(){
             return {
-            clicked: false
+            clicked: false,
+            directions: 'directions'
             }
         },
 
         _clicked: function(clickEvent){
             if(this.state.clicked !== true){
                 this.setState({clicked: true})
+                      this.setState({directions: ''})
             }
             else{
                 this.setState({clicked: false})
+                 this.setState({directions: 'directions'})
             }
         },
         _getSteps: function() {
@@ -329,22 +330,28 @@ function app() {
         render: function(){
             var content = ''
             var arrow =""
+            var newName ="map"
+            var styleObj={}
+            var styleObjTwo={}
             if(!this.state.clicked){
                 arrow ="\u25B6"
             }
             if (this.state.clicked){
                 content = this._getSteps()
                 arrow="\u25BC"
+                newName ="mapNone"
+                styleObj={width:'32%', marginLeft: 0, marginTop: 0, left:'6.5%', fontSize: '24px'}
+                 styleObjTwo={width:'5%', left: '1.2%'}
             }
           
             return (
                 <div>
-                <div className="dirTitle"> <button className="buttonDir" onClick={this._clicked}>{arrow} </button>  Directions </div>
-                <h1 className="dirH1"> <div className="origin">{this.props.origin}</div> to <div className="origin">{this.props.address}</div></h1>
+                <div style={styleObjTwo} className="dirTitle"> <button className="buttonDir" onClick={this._clicked}>{arrow} </button> <div className="dirTitleDirect">{this.state.directions}</div></div>
+                <h1 style={styleObj} className="dirH1"> <div className="origin">{this.props.origin}</div> to <div className="origin">{this.props.address}</div></h1>
                 <div className="directions">
                 {content}
                 </div>
-                <div className="map"></div>
+                <div  className={newName}></div>
                  <div className="pano"></div>
                 </div>
                 )
@@ -395,15 +402,27 @@ function app() {
         }
     })
     var ListingsView = React.createClass({
+         getInitialState: function() {
+            return {
+                clicked: false,
+                search: true
+            }
+        },
+            
+        _clicked: function(clickEvent){
+            if(this.state.clicked !== true){
+                this.setState({clicked: true})
+            }
+            else{
+                this.setState({clicked: false})
+            }
+        },
+
         componentDidMount: function() {
             var self = this
             this.props.rc.on('sync', function() { self.forceUpdate() })
         },
-        getInitialState: function() {
-            return {
-                search: true
-            }
-        },
+       
         _isError: function(keyEvent){
             console.log('runningkadjfl akjf')
                   var query = keyEvent.target.value
@@ -424,9 +443,23 @@ function app() {
             } else {
                 styleObj = { marginTop: "20%" }
             }
+            var navObj ={}
+            if(this.state.clicked){
+                navObj ={display: 'inline-block'}
+            }else {
+                navObj={}
+            }
 
           return(
               <div className="nextContainer">
+              <button onClick={this._clicked} className="dashButton">D</button>
+              <div style={navObj} className="navBar"> 
+              <div className="navEl"> Near Me </div> 
+               <div className="navEl"> Clothing Donation </div> 
+                <div className="navEl"> Food Donation </div> 
+                 <div className="navEl"> Toy Donation </div> 
+                  <div className="navEl"> Recycling </div> 
+               </div>
                   <div className="header"><h1 style={styleObj}>Dump</h1></div>
                     <Select 
                         className="select" 
@@ -452,13 +485,12 @@ function app() {
         },
         _searchQuery: function(changeEvent) {
             this.setState({search:'false'})
-        
-            var header= document.querySelector(".header")
+                console.log('change', changeEvent)
+                var label = changeEvent.label
+            var query= changeEvent.value
 
-            var inputEl = changeEvent.value
-            var query = inputEl
            
-            location.hash = `${this.props.lat}/${this.props.lng}/${query}`
+            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
 
 
         // window.GoogleMapsLoader = GoogleMapsLoader
@@ -519,7 +551,6 @@ function app() {
         }
     })
 
- 
                 //       name={this.props.listing.Business} 
                 //       locLat={this.props.listing.Lat} 
                 //       locLng={this.props.listing.Lon} 
@@ -542,7 +573,6 @@ function app() {
 
         _getMap: function(clickEvent) {
             return (
-    
             <img className="mapTwo" src="mapPlace.png"/>
        
                     )
@@ -568,73 +598,80 @@ function app() {
       
         render: function() {
             var triangle = ''
-                 if(this.state.more === 'more'){
+            var content = ''
+            var closest = ''
+            var styleObj ={}
+            var styleObjThree ={}
+            var buttonObj = {}
+            var detailObj = {}
+            var className ="infoDiv"
+            var classNameMat ="infoDivMat"
+            if(this.state.more === 'more'){
                 triangle ="\u25B6"
             }
-            if (this.state.more === 'less'){
-                triangle="\u25BC"
-            }
-       
-            var buttonObj = {}
+         
             var url ='https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + this.props.listing.Lat + "," + this.props.listing.Lon + '&heading=151.78&pitch=-0.76&key=AIzaSyAlioIpF4LPLreb8s11Mxtsm5CdDbZRkFQ'
 
-            if (this.props.color === 0) {
-                url = 'westpark.png'
-                // buttonObj = { display: "none" }
-            }
-            var detailObj = {}
             if (this.state.more === 'less') {
+                triangle="\u25BC"
                 detailObj = { display: 'block' }
             } else {
                 detailObj = { display: "none" }
             }
-            var content = ''
-            var closest = ''
-            var styleObj ={}
+            
             if(this.props.color >0) {
+                styleObjThree={display:'inline-block'}
               
               styleObj={width: "100%"}
-          }
+            }
             if(this.props.color <1) {
+                 url = 'westpark.png'
                 content = this._getMap()
                 closest = this._getClosest()
+                className = 'infoDivNone'
+                classNameMat ='infoDivNone'
+                styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
             } 
             var infoType ={fontWeight: 'bold', textDecoration: 'underline', marginLeft: 0}
             return (
                 <div>
-                <div userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
+                    <div userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
                    
-                    <div className="wordsContainer">
-                     <div className="streetViewContainer">
-                      <img className="streetView" src={url}/>
-                      <div className="streetViewArrow">
-                      </div>
-                    </div>
-                    <div className="words">
-                        <h3 data-lat={this.props.userLat} data-lon={this.props.userLon} data-locLat={this.props.listing.Lat} data-locLng={this.props.listing.Lon} onClick={this._triggerMapView} data-name={this.props.listing.Business}> {this.props.listing.Business} </h3>
-                      <div className="moreButtonContainer">
-                    <button onClick={this._more} className="moreButton">{triangle} {this.state.more} info</button>
-                    </div>
-                    </div>
-                    <div className="buttonContainer">
-                        {closest}
-                    <button style={buttonObj} data-index={this.props.color} data-locLat={this.props.listing.Lat} data-locLng={this.props.listing.Lon} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
-                        <p className="miniInfo"> {"\u2672"}{this.props.listing.Address} <br/> {"\u260E"} {this.props.listing.Phone}</p>
-                    </div>
-                    <div>
-                    </div>
-                  
-                    </div>
-                    
-                </div>
-                   <div className="info" style={detailObj}>
-                    <div style={styleObj} className="infoWords" >
-                    <div style={infoType}> Hours:</div>{this.props.listing.Hours}<br/>
-                      <div style={infoType}>Categories:</div> {this.props.listing.Category} <br/>
-                        <div style={infoType}>Materials:</div> {this.props.listing.Materials} 
-                          </div>
-                           {content}
+                        <div className="wordsContainer">
+                            <div className="streetViewContainer">
+                                <img className="streetView" src={url}/>
+                                <div className="streetViewArrow">
+                             </div>
+                            </div>
+                            <div className="words">
+                                <h3 data-lat={this.props.userLat} data-lon={this.props.userLon} data-locLat={this.props.listing.Lat} data-locLng={this.props.listing.Lon} onClick={this._triggerMapView} data-name={this.props.listing.Business}> {this.props.listing.Business} </h3>
+                                <div className="moreButtonContainer">
+                                    <button onClick={this._more} className="moreButton">{triangle} {this.state.more} info</button>
+                                </div>
+                            </div>
+                            <div className="buttonContainer">
+                                {closest}
+                            <button style={buttonObj} data-index={this.props.color} data-locLat={this.props.listing.Lat} data-locLng={this.props.listing.Lon} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
+                            <p className="miniInfo"> {"\u2672"}{this.props.listing.Address} <br/> {"\u260E"} {this.props.listing.Phone}</p>
+                            </div>
                         </div>
+                    </div>
+                    <div className="info" style={detailObj}>
+                        <div style={styleObj} className="infoWords" >
+                            <div className={className}>
+                                <div style={infoType}> Hours:</div>
+                                {this.props.listing.Hours}<br/>
+                            </div>
+                            <div className={className}>
+                                 <div style={infoType}>Categories:</div> 
+                                 {this.props.listing.Category} <br/>
+                            </div>
+                            <div className={classNameMat}>
+                                <div style={infoType}>Materials:</div> {this.props.listing.Materials} 
+                            </div>
+                        </div>
+                           {content}
+                    </div>
                 </div>
                 )
                 }
@@ -646,6 +683,7 @@ function app() {
             return {
                 search: true,
                 list: 1,
+                delete: false,
                 lat: this.props.lat,
                 lng: this.props.lng
             }
@@ -659,6 +697,10 @@ function app() {
         _addList: function() {
             this.state.list += 2
             this._update()
+        },
+
+        _delete: function() {
+            this.setState({ delete: true})
         },
 
         _subList: function() {
@@ -688,18 +730,12 @@ function app() {
 
          
           _searchQuery: function(changeEvent) {
-             console.log('runningsearch')
             this.setState({search:'false'})
-        
-            var header= document.querySelector(".header")
 
-            var inputEl = changeEvent.value
-            var query = inputEl
+            var query = changeEvent.value
            
             location.hash = `${this.props.lat}/${this.props.lng}/${query}`
-
-              query = ''
-          
+            query = ''
         },
 
         _getListingsJsx: function(resultsArr, i) {
@@ -719,11 +755,17 @@ function app() {
             if (this.state.list > 1) {
                 styleObj.display = "inline-block"
             }
-            //<div className="pano"></div>
-                //  <div className="map"></div>
+            
+            var zip ={'display': 'none'}
+            if{this.props.name === 'paper' && this.props.label === 'plastic' && this.props.name === 'can' }{
+                zip.display= 'inline-block'
+            }
+            if (this.state.delete) {
+                zip.display = 'none'
+            }
             return (
             <div className="nextContainer">
-                  <div className="header"><h1>Dump</h1></div>
+                  <div className="header"><h1>Dump<div className="title">recycling centers</div></h1></div>
                     <Select 
                         className="select" 
                         lat={this.props.lat} 
@@ -738,8 +780,14 @@ function app() {
                         value="" 
                         options={list} 
                         onChange={this._searchQuery}/>
-<div className="neighborhood"> * It looks like you live in a zip code which offers recycling pick-up for this material! <p></p> Click <a href="http://www.houstontx.gov/solidwaste/schedule.html" className="boxLink"> here</a> for scheduling info!  </div>
-
+            <div style={zip} className="neighborhood">
+                <button onClick={this._delete} className="buttonX">x</button> 
+                    * It looks like you live in a zip code which offers recycling pick-up for {this.props.label}! 
+                    <p></p> 
+                    Click 
+                     <a href="http://mycity.houstontx.gov/public/" target="_blank" className="boxLink"> <div className="boxLinkText">here</div> </a> 
+                     for scheduling info!  
+            </div>
                 <div className ="errorContainer"></div>
                 <div className="listingContainer">
                       {this._findMin(data)}
@@ -761,9 +809,6 @@ function app() {
             var centerName =this.props.name
             var centerLat =Number(this.props.lat)
             var centerLng =Number(this.props.lng)
-            console.log('map')
-            console.log(centerLat)
-            console.log(centerLng)
             var center = { lat: Number(this.props.lat), lng: Number(this.props.lng) }
             var locLat=Number(this.props.locLat)
             var locLng=Number(this.props.locLng)
@@ -835,7 +880,7 @@ function app() {
     var dumpRouter = Backbone.Router.extend({
         routes: {
             ":lat/:lng/map/:address": "map",
-            ":lat/:lng/:query": "search",
+            ":lat/:lng/:query/:label": "search",
             "*default": "home",
         },
 
@@ -861,9 +906,9 @@ function app() {
                                  directionsDisplay.setDirections(result)
                                              DOM.render(<DirectionsView origin={origin} address={address} data={result} />, document.querySelector('.container'))
                                              var map = new google.maps.Map(document.querySelector(".map"), 
-                                            {zoom: 13,center: { lat: Number(lat), lng: Number(lng)}})
+                                            {zoom: 7,center: { lat: Number(lat), lng: Number(lng)}})
                                             directionsDisplay.setMap(map)
-                                             var panorama = new google.maps.StreetViewPanorama(
+                                            var panorama = new google.maps.StreetViewPanorama(
                                                   document.querySelector('pano'), {
                                                     position: { lat: Number(lat), lng: Number(lng)},
                                                     pov: {
@@ -872,6 +917,7 @@ function app() {
                                                     }
                                                   });
                                               map.setStreetView(panorama);
+                                             
                                             }
                                       else {
                                  window.alert('Directions request failed due to ' + status);
@@ -895,7 +941,7 @@ function app() {
 
         },
 
-        search: function(lat,lng, query) {
+        search: function(lat,lng, query, label) {
             var rc = new RecyclingCollection();
             rc.fetch();
 
@@ -964,7 +1010,7 @@ function app() {
                     }
                 }
            
-                DOM.render(<ListingGrid lat={lat} lng={lng} rc={rc} tc={toyData} fc={foodData} yelpData={yelpData} jsonData={data}/>, document.querySelector('.container'))
+                DOM.render(<ListingGrid label={label} lat={lat} lng={lng} rc={rc} tc={toyData} fc={foodData} yelpData={yelpData} jsonData={data}/>, document.querySelector('.container'))
                 
                                        
             }
@@ -1137,5 +1183,15 @@ app()
 //         }
 //     })     
 
+    // <div className="imgContainer">
+    //          <button style={buttonDir} data-index={this.props.color} data-locLat={this.props.listing.location.coordinate.latitude} data-locLng={this.props.listing.location.coordinate.longitude} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
+    //             <MapView 
+    //                   name={this.props.listing.name} 
+    //                   locLat={this.props.listing.location.coordinate.latitude} 
+    //                   locLng={this.props.listing.location.coordinate.longitude} 
+    //                   lat={this.props.userLat} 
+    //                   lng={this.props.userLon}>
+    //             </MapView>
+    //         </div>
 
     
