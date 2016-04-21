@@ -757,7 +757,7 @@ function app() {
             }
             
             var zip ={'display': 'none'}
-            if{this.props.name === 'paper' && this.props.label === 'plastic' && this.props.name === 'can' }{
+            if(this.props.name === 'paper' && this.props.label === 'plastic' && this.props.name === 'can' ){
                 zip.display= 'inline-block'
             }
             if (this.state.delete) {
