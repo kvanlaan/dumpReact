@@ -65,15 +65,14 @@ function app() {
         },
 
         _triggerMapView: function(clickEvent) {
+            console.log('mapview')
             var item = clickEvent.target
-            var name = item.getAttribute('data-name')
             var locLat = item.getAttribute('data-locLat')
             var locLng = item.getAttribute('data-locLng')
             var lat=this.props.userLat
             var lng=this.props.userLon
             var add = this.props.listing.location.address[0]
-            var nameParts= name.split('/')
-                name = nameParts[0]
+            console.log(add)
            window.location.hash = lat + "/" + lng + "/map/" + add
         },
 
@@ -154,6 +153,7 @@ function app() {
                     </div>
                     <div className="buttonContainer">
                         {closest}
+
                  <button style={buttonObj} data-index={this.props.color} data-locLat={this.props.listing.location.coordinate.latitude} data-locLng={this.props.listing.location.coordinate.longitude} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
                     <p className="miniInfo"> {"\u2672" }{this.props.listing.location.address} <br/> {this.props.listing.location.city}  {this.props.listing.location.state_code} <br/> {this.props.listing.phone} <br/> </p><div className="open">{open}</div>
                     </div>
