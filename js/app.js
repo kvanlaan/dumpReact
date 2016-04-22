@@ -107,6 +107,7 @@ function app() {
             var buttonDir = {fontSize: "15px", marginTop: "3%", marginBottom: "2%"}
 
             var styleObjThree ={}
+            var hObj={fontSize: '45px'}
      
             if(this.state.more === 'more'){
                 triangle ="\u25B6"
@@ -146,7 +147,7 @@ function app() {
                       </div>
                     <div className="wordsContainer">
                     <div className="words">
-                    <h3 data-lat={this.props.userLat} data-lon={this.props.userLon} data-locLat={this.props.listing.location.coordinate.latitude} data-locLng={this.props.listing.location.coordinate.longitude} data-name={this.props.listing.name}> {this.props.listing.name} </h3>
+                    <h3 style={hObj} data-lat={this.props.userLat} data-lon={this.props.userLon} data-locLat={this.props.listing.location.coordinate.latitude} data-locLng={this.props.listing.location.coordinate.longitude} data-name={this.props.listing.name}> {this.props.listing.name} </h3>
                       <div className="moreButtonContainer">
             <button onClick={this._more} className="button">{triangle}  {this.state.more} </button>
             </div> 
@@ -464,8 +465,6 @@ function app() {
                 navObj={}
             }
 
-
-
           return(
               <div className="nextContainer">
               <button onClick={this._clicked} className="dashButton">d</button>
@@ -487,6 +486,11 @@ function app() {
                 <div onClick ={this._changeHash} value="food" className="navEl">
                 Food Donation
                </div>
+                <div onClick ={this._changeHash} value="landfills" className="navEl">
+                Landfills
+               </div>
+
+               <button  className="meButton">near me</button>
                </div>
                     <div className="header"><h1>Dump<div className="title"> it!</div></h1></div>
                     <Select 
@@ -570,10 +574,52 @@ function app() {
                 navObj={}
             }
             return (
-                <div className="big">
-                 911 <br/>
-                Url:<a href="http://www.911.org"> 911.org </a><br/>
-                 Phone: 911
+                <div className="nextContainer">
+                <button onClick={this._clicked} className="dashButton">d</button>
+              <div style={navObj} className="openSource"> 
+                <div> Dump is an open source application. <br/>If you would like to contribute to our database please visit <a className="boxLink" href="https://github.com/kvanlaan/dump"><div className="boxLinkText">https://github.com/kvanlaan/dump</div></a>. </div>
+               </div>
+
+               <div onClick={this._changeHash}  className = "navBar">
+                 <div  value="paper" className="navEl">
+               Recycling Centers
+               </div>
+               <div  value="clothing" className="navEl">
+               Clothing Donation
+               </div>
+                <div value="toy" onClick={this._changeHash} className="navEl">
+                Toy Donation
+
+               </div>
+                <div onClick ={this._changeHash} value="food" className="navEl">
+                Food Donation
+               </div>
+               <div onClick ={this._changeHash} value="landfills" className="navEl">
+                Landfills
+               </div>
+               <button  className="meButton">near me</button>
+               </div>
+                    <div className="header"><h1>Dump<div className="title"> um...</div></h1></div>
+                    <Select 
+                        className="select" 
+                        lat={this.props.lat} 
+                        lng={this.props.lng} 
+                        tc={this.props.tc} 
+                        fc={this.props.fc} 
+                        rc={this.props.rc} 
+                        lc={this.props.lc} 
+                        yelpData={this.props.yelpData} 
+                        updater={this._updater}  
+                        name="form-field-name" 
+                        value="" 
+                        options={list} 
+                        onChange={this._searchQuery}    />
+                
+                    <div className="big">
+                 <div className="bigText"> 911 <br/>
+                Url:<a style={{'color': 'white'}} href="http://www.911.org"> 911.org </a><br/>
+                 Phone: 911 </div>
+                </div>
                 </div>
                 )
         }
@@ -951,7 +997,13 @@ function app() {
             var navObj ={}
             var className='neighborhood'
             var styleObj = { 'display': 'none' }
-            var content=''
+            var content= <img className="loadingGifThree" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
+            var title ="recycling centers"
+
+            if(this.props.query === "landfills"){
+                title ="landfills"
+            }
+
 
             if(data.length > 2){
                 content =this._findMin(data)
@@ -1012,7 +1064,7 @@ function app() {
                </div>
                <button className="meButton">near me</button>
                   </div>
-                  <div className="header"><h1>Dump<div className="title">recycling centers</div></h1></div>
+                  <div className="header"><h1>Dump<div className="title">{title}</div></h1></div>
                     <Select 
                         className="select" 
                         lat={this.props.lat} 
