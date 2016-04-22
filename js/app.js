@@ -268,6 +268,11 @@ function app() {
           
         },
 
+          _goHome: function(clickEVent){
+                  location.hash = `${this.props.lat}/${this.props.lng}`
+
+        },
+
         render: function() {
            var data =  this.props.jsonData.models
            console.log(data)
@@ -315,7 +320,7 @@ function app() {
                </div>
                </div>
                </div>
-               <button className="meButton">near me</button>
+               <button onClick ={this._goHome} className="meButton">home</button>
                </div>
                   <div className="header"><h1 >Dump<div className="title">{this.props.name} donation</div></h1></div>
                    
@@ -456,6 +461,11 @@ function app() {
             location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
           
         },
+            _goHome: function(clickEVent){
+                  location.hash = `${this.props.lat}/${this.props.lng}`
+
+        },
+
 
       	render: function() {
             var navObj ={}
@@ -490,7 +500,7 @@ function app() {
                 Landfills
                </div>
 
-               <button  className="meButton">near me</button>
+               <button onClick ={this._goHome} className="meButton">home</button>
                </div>
                     <div className="header"><h1>Dump<div className="title"> it!</div></h1></div>
                     <Select 
@@ -532,38 +542,9 @@ function app() {
             }
         },
 
-        render: function() {
-             var navObj ={}
-            if(this.state.clicked){
-                navObj ={display: 'inline-block'}
-            }else {
-                navObj={}
-            }
-            return (
-                <div className="big">
-                 311 <br/>
-                url: <a href="http://www.houstontx.gov/311/"> http://www.houstontx.gov/311/ </a><br/>
-              Phone: (713) 837-0311
-                </div>
-                )
-        }
-    })
-    var NineView = React.createClass({
-          getInitialState: function() {
-            return {
-                clicked: false,
-                search: true
-            }
-        },
+            _goHome: function(clickEVent){
+                  location.hash = `${this.props.lat}/${this.props.lng}`
 
-            
-        _clicked: function(clickEvent){
-            if(this.state.clicked !== true){
-                this.setState({clicked: true})
-            }
-            else{
-                this.setState({clicked: false})
-            }
         },
 
         render: function() {
@@ -597,7 +578,87 @@ function app() {
                <div onClick ={this._changeHash} value="landfills" className="navEl">
                 Landfills
                </div>
-               <button  className="meButton">near me</button>
+               <button  onClick ={this._goHome} className="meButton">home</button>
+               </div>
+                    <div className="header"><h1>Dump<div className="title"> um...</div></h1></div>
+                    <Select 
+                        className="select" 
+                        lat={this.props.lat} 
+                        lng={this.props.lng} 
+                        tc={this.props.tc} 
+                        fc={this.props.fc} 
+                        rc={this.props.rc} 
+                        lc={this.props.lc} 
+                        yelpData={this.props.yelpData} 
+                        updater={this._updater}  
+                        name="form-field-name" 
+                        value="" 
+                        options={list} 
+                        onChange={this._searchQuery}    />
+                <div className="big">
+                 311 <br/>
+                url: <a style={{'color': 'white'}} href="http://www.houstontx.gov/311/"> http://www.houstontx.gov/311/ </a><br/>
+              Phone: (713) 837-0311
+                </div>
+                </div>
+                )
+        }
+    })
+    var NineView = React.createClass({
+          getInitialState: function() {
+            return {
+                clicked: false,
+                search: true
+            }
+        },
+
+            
+        _clicked: function(clickEvent){
+            if(this.state.clicked !== true){
+                this.setState({clicked: true})
+            }
+            else{
+                this.setState({clicked: false})
+            }
+        },
+
+           _goHome: function(clickEVent){
+                  location.hash = `${this.props.lat}/${this.props.lng}`
+
+        },
+
+        render: function() {
+             var navObj ={}
+            if(this.state.clicked){
+                navObj ={display: 'inline-block'}
+            }else {
+                navObj={}
+            }
+            return (
+                <div className="nextContainer">
+                <button onClick={this._clicked} className="dashButton">d</button>
+              <div style={navObj} className="openSource"> 
+                <div> Dump is an open source application. <br/>If you would like to contribute to our database please visit <a className="boxLink" href="https://github.com/kvanlaan/dump"><div className="boxLinkText">https://github.com/kvanlaan/dump</div></a>. </div>
+               </div>
+
+               <div onClick={this._changeHash}  className = "navBar">
+                 <div  value="paper" className="navEl">
+               Recycling Centers
+               </div>
+               <div  value="clothing" className="navEl">
+               Clothing Donation
+               </div>
+                <div value="toy" onClick={this._changeHash} className="navEl">
+                Toy Donation
+
+               </div>
+                <div onClick ={this._changeHash} value="food" className="navEl">
+                Food Donation
+               </div>
+               <div onClick ={this._changeHash} value="landfills" className="navEl">
+                Landfills
+               </div>
+               <button  onClick ={this._goHome} className="meButton">home</button>
                </div>
                     <div className="header"><h1>Dump<div className="title"> um...</div></h1></div>
                     <Select 
@@ -651,6 +712,11 @@ function app() {
         componentDidMount: function() {
             var self = this
             this.props.rc.on('sync', function() { self.forceUpdate() })
+        },
+
+          _goHome: function(clickEVent){
+                  location.hash = `${this.props.lat}/${this.props.lng}`
+
         },
        
         _isError: function(keyEvent){
@@ -708,7 +774,7 @@ function app() {
                </div>
                </div>
                </div>
-               <button  className="meButton">near me</button>
+               <button onClick={this._goHome} className="meButton">home</button>
                </div>
                   <div className="header"><h1 style={styleObj}>Dump</h1></div>
                     <Select 
@@ -850,6 +916,10 @@ function app() {
                 classNameMat ='infoDivNone'
                 styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
             } 
+
+             if(this.props.color ===1) {
+                 url = 'sunbeam.png'
+             }
            
             return (
                 <div>
@@ -948,6 +1018,12 @@ function app() {
         location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
       
         },
+
+        _goHome: function(clickEVent){
+                  location.hash = `${this.props.lat}/${this.props.lng}`
+
+        },
+
 
         _findMin: function(resultsArr, w) {
             var objArr = []
@@ -1062,7 +1138,7 @@ function app() {
                </div>
                </div>
                </div>
-               <button className="meButton">near me</button>
+               <button onClick={this._goHome}className="meButton">home</button>
                   </div>
                   <div className="header"><h1>Dump<div className="title">{title}</div></h1></div>
                     <Select 
@@ -1273,16 +1349,16 @@ function app() {
                 DOM.render(<ClothingGrid name={query} lat={lat} lng={lng} tc={toyData} rc={rc} yelpData={yelpData} fc={foodData} jsonData={toyData}/>, document.querySelector('.container'))
             }
             if (query === "food") {
-                DOM.render(<ClothingGrid name={query} lat={lat} lng={lng} rc={rc} yelpData={yelpData} fc={foodData} jsonData={foodData}/>, document.querySelector('.container'))
+                DOM.render(<ClothingGrid name={query} lat={lat} lng={lng} tc={toyData}  rc={rc} yelpData={yelpData} fc={foodData} jsonData={foodData}/>, document.querySelector('.container'))
             }
             if (query === "dump") {
-                DOM.render(<DumpView lat={lat} lng={lng} jsonData={data} yelpData={yelpData} fc={foodData} jsonData={foodData}/>, document.querySelector('.container'))
+                DOM.render(<DumpView lat={lat} lng={lng} rc={rc} jsonData={data} yelpData={yelpData}  tc={toyData}  fc={foodData} jsonData={foodData}/>, document.querySelector('.container'))
             }
             if (query === "body") {
-                DOM.render(<NineView  lat={lat} lng={lng} />, document.querySelector('.container'))
+                DOM.render(<NineView  lat={lat} lng={lng} rc={rc} jsonData={data} yelpData={yelpData}  tc={toyData}  fc={foodData}/>, document.querySelector('.container'))
             }
             if (query === "animal") {
-                DOM.render(<ThreeView lat={lat} lng={lng}/>, document.querySelector('.container'))
+                DOM.render(<ThreeView lat={lat} lng={lng}rc={rc}  tc={toyData}  yelpData={yelpData} fc={foodData}/>, document.querySelector('.container'))
             }
             if (query === "clothing") {
                 console.log('rendering clothin')

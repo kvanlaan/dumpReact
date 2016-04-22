@@ -291,9 +291,10 @@ a .bigText {
 }
 
 .elBar {
-    max-width: 55%;
-    margin-left: 32%;
-    margin-right: auto;
+    max-width: 85%;
+    position: relative;
+    margin-left: auto;
+    margin-right: 1%;
     margin-top: .5%;
 }
 
@@ -328,6 +329,7 @@ a .bigText {
     margin-right: auto;
     color: #85D9BF;
     border: none;
+    position: relative;
     font-weight: bold;
     box-shadow: none;
     display: inline-block;
@@ -596,8 +598,8 @@ a .bigText {
     color: #85D9BF;
     border: none;
     right: 1%;
-    width: 3.5%;
-    height: 7%;
+    width: 60px;
+    height: 60px;
     font-size: 17px;
     line-height: 1;
     top: 0;
@@ -811,10 +813,9 @@ a .bigText {
 }
 
 .dirH1 {
-width:270px;
+width:370px;
 margin-left: 0;
 margin-top: 0;
- left: 30%;
   font-size: 24px;
 
 }
@@ -832,10 +833,11 @@ h3 {
     font-size: 40px;
 }
     .directions {
-            margin-top: 20%;
+            margin-top: 100px;
+            width: 100%;
     }
 
-.neighborhood {
+.neighborhoodTwo {
     width: 400px;
     padding: 1px;
     left:0%;
@@ -844,13 +846,6 @@ h3 {
 
 }
 
-.navBar {
-    display: none;
-}
-
-.meButton {
-    display: none;
-}
 
 .info {
     width: 100%;
@@ -883,9 +878,22 @@ h3 {
 
 }
 
+.navBar {
+    display:none;
+}
+
+.meButton {
+    display: none;
+}
+
 .map {
-    width: 400px;
+      width: 400px;
     height: 632px;
+}
+.mapNone {
+    // width: 400px;
+    // height: 632px;
+    display: none;
 
    }
 
