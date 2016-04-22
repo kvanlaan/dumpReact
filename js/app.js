@@ -44,6 +44,7 @@ import shouldPureComponentUpdate from 'react-pure-render/function';
 import GoogleMap from 'google-map-react'
 
 // console.log(shouldPureComponentUpdate)
+
 function app() {
 
 
@@ -105,6 +106,9 @@ function app() {
             cat =cat[0]
             var open = ''
             var buttonDir = {fontSize: "15px", marginTop: "3%", marginBottom: "2%"}
+
+            var styleObjThree ={}
+     
             if(this.state.more === 'more'){
                 triangle ="\u25B6"
                 }
@@ -117,6 +121,7 @@ function app() {
            
             if(this.props.color >0) {    
               styleObj={width: "100%"}
+                 styleObjThree={display:'inline-block'}
                 }
             if(this.props.color <1) {
                 content = this._getMap()
@@ -131,6 +136,7 @@ function app() {
                 }else {
                 open = 'open now!'
             }
+
             return (
                 <div>
                 <div  userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
@@ -187,12 +193,13 @@ function app() {
                     return {
                         search: true,
                         list: 1,
+                        clicked: false
                     }
                 },
         _update: function() {
             this.setState({
                 more: this.state.more,
-                list: this.state.list
+                list: this.state.list,
             })
         },
         _addList: function() {
@@ -203,6 +210,15 @@ function app() {
         _subList: function() {
             this.state.list -= 2
                  this._update()
+        },
+
+        _clicked: function(clickEvent){
+            if(this.state.clicked !== true){
+                this.setState({clicked: true})
+            }
+            else{
+                this.setState({clicked: false})
+            }
         },
         _findMin: function(data) {
             var objArr = []
@@ -243,6 +259,14 @@ function app() {
           
         },
 
+           _changeHash: function(clickEvent) {
+
+            var label = 'grid'
+            var query = clickEvent.target.value
+            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
+          
+        },
+
         render: function() {
            var data =  this.props.jsonData.models
            console.log(data)
@@ -252,14 +276,48 @@ function app() {
             }
             console.log('making clothing grid')
             console.log(data)
-            var content=''
+            var content=<img className="loadingGifThree" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
+
             if (data.length > 5){
                 content =  this._findMin(data)
             }
+              var navObj ={}
+            if(this.state.clicked){
+                navObj ={display: 'inline-block'}
+            }else {
+                navObj={}
+            }
             return (
                 <div className="nextContainer">
+                <div className="bar">
                     <button onClick={this._clicked} className="dashButton">d</button>
+                      <div style={navObj} className="openSource"> 
+                <div> Dump is an open source application. <br/>If you would like to contribute to our database please visit <a className="boxLink" href="https://github.com/kvanlaan/dump"><div className="boxLinkText">https://github.com/kvanlaan/dump</div></a>. </div>
+               </div>
+                <div  className="navBar">
+                <div className = "elBar">
+               <div  onClick={this._changeHash}value="paper" className="navEl">
+               Recycling Centers
+               </div>
+               <div  onClick={this._changeHash} value="clothing" className="navEl">
+               Clothing Donation
+               </div>
+                <div value="toy" onClick={this._changeHash} className="navEl">
+                Toy Donation
+
+               </div>
+                <div onClick ={this._changeHash} value="food" className="navEl">
+                Food Donation
+               </div>
+                 <div onClick ={this._changeHash} value="landfills" className="navEl">
+                Landfills
+               </div>
+               </div>
+               </div>
+               <button className="meButton">near me</button>
+               </div>
                   <div className="header"><h1 >Dump<div className="title">{this.props.name} donation</div></h1></div>
+                   
                     <Select 
                         className="select" 
                         lat={this.props.lat} 
@@ -342,7 +400,7 @@ function app() {
                 arrow="\u25BC"
                 newName ="mapNone"
                 styleObj={width:'33%', marginLeft: 0, marginTop: 0, left:'5.72%', fontSize: '24px'}
-                 styleObjTwo={height: '5%', width:'4%', left: '1.2%', marginRight: '0%'}
+                 styleObjTwo={height: '9%', width:'4%', left: '1.2%', marginRight: '0%'}
             }
           
             return (
@@ -367,11 +425,69 @@ function app() {
     })
     
     var DumpView = React.createClass({
+         getInitialState: function() {
+            return {
+                clicked: false,
+                search: true
+            }
+        },
+            
+        _clicked: function(clickEvent){
+            if(this.state.clicked !== true){
+                this.setState({clicked: true})
+            }
+            else{
+                this.setState({clicked: false})
+            }
+        },
+          _searchQuery: function(changeEvent) {
+            this.setState({search:'false'})
+            var label = changeEvent.label
+            var query = changeEvent.value
+            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
+          
+        },
+
+           _changeHash: function(clickEvent) {
+
+            var label = 'grid'
+            var query = clickEvent.target.value
+            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
+          
+        },
 
       	render: function() {
-      		return (
-                <div>
-                    <button onClick={this._clicked} className="dashButton">d</button>
+            var navObj ={}
+            if(this.state.clicked){
+                navObj ={display: 'inline-block'}
+            }else {
+                navObj={}
+            }
+
+
+
+          return(
+              <div className="nextContainer">
+              <button onClick={this._clicked} className="dashButton">d</button>
+              <div style={navObj} className="openSource"> 
+                <div> Dump is an open source application. <br/>If you would like to contribute to our database please visit <a className="boxLink" href="https://github.com/kvanlaan/dump"><div className="boxLinkText">https://github.com/kvanlaan/dump</div></a>. </div>
+               </div>
+
+               <div onClick={this._changeHash}  className = "navBar">
+                 <div  value="paper" className="navEl">
+               Recycling Centers
+               </div>
+               <div  value="clothing" className="navEl">
+               Clothing Donation
+               </div>
+                <div value="toy" onClick={this._changeHash} className="navEl">
+                Toy Donation
+
+               </div>
+                <div onClick ={this._changeHash} value="food" className="navEl">
+                Food Donation
+               </div>
+               </div>
                     <div className="header"><h1>Dump<div className="title"> it!</div></h1></div>
                     <Select 
                         className="select" 
@@ -396,8 +512,29 @@ function app() {
     })
 
     var ThreeView = React.createClass({
+          getInitialState: function() {
+            return {
+                clicked: false,
+                search: true
+            }
+        },
+            
+        _clicked: function(clickEvent){
+            if(this.state.clicked !== true){
+                this.setState({clicked: true})
+            }
+            else{
+                this.setState({clicked: false})
+            }
+        },
 
         render: function() {
+             var navObj ={}
+            if(this.state.clicked){
+                navObj ={display: 'inline-block'}
+            }else {
+                navObj={}
+            }
             return (
                 <div className="big">
                  311 <br/>
@@ -408,8 +545,30 @@ function app() {
         }
     })
     var NineView = React.createClass({
+          getInitialState: function() {
+            return {
+                clicked: false,
+                search: true
+            }
+        },
+
+            
+        _clicked: function(clickEvent){
+            if(this.state.clicked !== true){
+                this.setState({clicked: true})
+            }
+            else{
+                this.setState({clicked: false})
+            }
+        },
 
         render: function() {
+             var navObj ={}
+            if(this.state.clicked){
+                navObj ={display: 'inline-block'}
+            }else {
+                navObj={}
+            }
             return (
                 <div className="big">
                  911 <br/>
@@ -434,6 +593,13 @@ function app() {
             else{
                 this.setState({clicked: false})
             }
+        },
+         _changeHash: function(clickEvent) {
+
+            var label = 'grid'
+            var query = clickEvent.target.value
+            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
+          
         },
 
         componentDidMount: function() {
@@ -470,9 +636,33 @@ function app() {
 
           return(
               <div className="nextContainer">
+                 <div className="bar">
               <button onClick={this._clicked} className="dashButton">d</button>
               <div style={navObj} className="openSource"> 
-                <div> Dump is an open source application. <br/>If you would like to contribute to our database please send queries or suggestions to <a className="boxLink" href=""><div className="boxLinkText">katrina@dump.com</div></a>. </div>
+                <div> Dump is an open source application. <br/>If you would like to contribute to our database please visit <a className="boxLink" href="https://github.com/kvanlaan/dump"><div className="boxLinkText">https://github.com/kvanlaan/dump</div></a>. </div>
+               </div>
+
+               <div onClick={this._changeHash}  className = "navBar">
+               <div className = "elBar">
+                 <div  value="paper" className="navEl">
+               Recycling Centers
+               </div>
+               <div  value="clothing" className="navEl">
+               Clothing Donation
+               </div>
+                <div value="toy" onClick={this._changeHash} className="navEl">
+                Toy Donation
+
+               </div>
+                <div onClick ={this._changeHash} value="food" className="navEl">
+                Food Donation
+               </div>
+                  <div onClick ={this._changeHash} value="landfills" className="navEl">
+                Landfills
+               </div>
+               </div>
+               </div>
+               <button  className="meButton">near me</button>
                </div>
                   <div className="header"><h1 style={styleObj}>Dump</h1></div>
                     <Select 
@@ -489,7 +679,9 @@ function app() {
                         options={list} 
                         search={this.props.search} 
                         onKeyDown={this._isError} 
-                        onChange={this._searchQuery}/>
+                        onChange={this._searchQuery}
+                        onClick={this._getClasses}
+                        />
                 <div className ="errorContainer"></div>
                 <div className="listingContainer">
                 </div>
@@ -497,6 +689,7 @@ function app() {
 
           )
         },
+
         _searchQuery: function(changeEvent) {
             this.setState({search:'false'})
                 console.log('change', changeEvent)
@@ -505,42 +698,6 @@ function app() {
 
            
             location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
-
-
-        // window.GoogleMapsLoader = GoogleMapsLoader
-        //  GoogleMapsLoader.KEY = 'AIzaSyAGcVpoS35RezE4cQzMXcH-M1VdQgZXuw0'
-        //  GoogleMapsLoader.load(function(google) {
-
-        //             var directionsDisplay = new google.maps.DirectionsRenderer;
-        //              var ds = new google.maps.DirectionsService()
-        //              ds.route({
-        //                      origin: "5470 Candlewood Dr. Houston,TX 77056",
-        //                      destination: "4103 Ruskin Houston,TX 77005",
-        //                      travelMode: google.maps.TravelMode.DRIVING
-        //                  }, function(result, status) {
-        //                      if (status == google.maps.DirectionsStatus.OK) {
-        //                          directionsDisplay.setDirections(result)
-        //                                   //    var map = new google.maps.Map(document.querySelector(".map"), 
-        //                                   //   {zoom: 13,center: { lat: 25, lng: 35}})
-        //                                   //   // directionsDisplay.setMap(map)
-        //                                   //    var panorama = new google.maps.StreetViewPanorama(
-        //                                   //         document.querySelector('pano'), {
-        //                                   //           position: { lat: 25, lng: 35},
-        //                                   //           pov: {
-        //                                   //             heading: 34,
-        //                                   //             pitch: 10
-        //                                   //           }
-        //                                   //         });
-        //                                   //     map.setStreetView(panorama);
-        //                                   // }
-        //                               else {
-        //                          window.alert('Directions request failed due to ' + status);
-        //                     }
-     
-        //                  }
-        //              )
-        //          })
-              query = ''
           
         },
 
@@ -620,6 +777,7 @@ function app() {
             var detailObj = {}
             var className ="infoDiv"
             var classNameMat ="infoDivMat"
+             var infoType ={fontWeight: 'bold', textDecoration: 'underline', marginLeft: 0}
             if(this.state.more === 'more'){
                 triangle ="\u25B6"
             }
@@ -646,7 +804,7 @@ function app() {
                 classNameMat ='infoDivNone'
                 styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
             } 
-            var infoType ={fontWeight: 'bold', textDecoration: 'underline', marginLeft: 0}
+           
             return (
                 <div>
                     <div userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
@@ -699,7 +857,22 @@ function app() {
                 list: 1,
                 delete: false,
                 lat: this.props.lat,
-                lng: this.props.lng
+                lng: this.props.lng,
+                clicked: false,
+                zip: false
+            }
+        },
+        componentDidMount: function() {
+            var self = this
+            this.props.rc.on('sync', function() { self.forceUpdate() })
+        },
+
+        _clicked: function(clickEvent){
+            if(this.state.clicked !== true){
+                this.setState({clicked: true})
+            }
+            else{
+                this.setState({clicked: false})
             }
         },
         _update: function() {
@@ -720,6 +893,14 @@ function app() {
         _subList: function() {
             this.state.list -= 2
                  this._update()
+        },
+
+       _changeHash: function(clickEvent) {
+
+        var label = 'grid'
+        var query = clickEvent.target.value
+        location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
+      
         },
 
         _findMin: function(resultsArr, w) {
@@ -764,30 +945,73 @@ function app() {
 
         render: function() {
             var data = this.props.jsonData
+            console.log(data)
             var hypo = this._findMin(data)
+            var zip={}
+            var navObj ={}
+            var className='neighborhood'
             var styleObj = { 'display': 'none' }
+            var content=''
+
+            if(data.length > 2){
+                content =this._findMin(data)
+            }
             if (this.state.list > 1) {
                 styleObj.display = "inline-block"
             }
-            var zip={}
-            
-            if(this.props.name === 'paper' && this.props.name === 'plastic' && this.props.label === 'can' ){
-                zip.display= 'inline-block'
-            }
+           
+            if(this.props.query === "paper" || this.props.query === 'plastic'|| this.props.query === 'can' || this.props.query === 'cardboard'){
+                console.log('check')
+                 className='neighborhoodTwo'
+             } else {
+                className='neighborhood'
+             }
             if (this.state.delete) {
                 zip.display = 'none'
             }
+             
+            if(this.state.clicked){
+                navObj ={display: 'inline-block'}
+            }else {
+                navObj={}
+            }
             return (
             <div className="nextContainer">
-               <div style={zip} className="neighborhood">
-                <button onClick={this._delete} className="buttonX">x </button> 
+               <div style={zip} className={className}>
+                    <button onClick={this._delete} className="buttonX">x </button> 
                      * It looks like your zip code offers recycling pick-up for {this.props.label}! 
-                    <p></p> 
-                    Click 
+                        <p></p> 
+                        Click 
                      <a href="http://mycity.houstontx.gov/public/" target="_blank" className="boxLink"> <div className="boxLinkText">here</div> </a> 
                      for scheduling info!  
-            </div>
+                </div>
+                 <div className="bar">
                 <button onClick={this._clicked} className="dashButton">d</button>
+                 <div style={navObj} className="openSource"> 
+                <div> Dump is an open source application. <br/>If you would like to contribute to our database please visit <a className="boxLink" href="https://github.com/kvanlaan/dump"><div className="boxLinkText">https://github.com/kvanlaan/dump</div></a>. </div>
+               </div>
+     <div className = "navBar">
+                 <div className = "elBar">
+               <div  onClick={this._changeHash} value="paper" className="navEl">
+               Recycling Centers
+               </div>
+               <div  onClick={this._changeHash}value="clothing" className="navEl">
+               Clothing Donation
+               </div>
+                <div value="toy" onClick={this._changeHash} className="navEl">
+                Toy Donation
+
+               </div>
+                <div onClick ={this._changeHash} value="food" className="navEl">
+                Food Donation
+               </div>
+                 <div onClick ={this._changeHash} value="landfills" className="navEl">
+                Landfills
+               </div>
+               </div>
+               </div>
+               <button className="meButton">near me</button>
+                  </div>
                   <div className="header"><h1>Dump<div className="title">recycling centers</div></h1></div>
                     <Select 
                         className="select" 
@@ -805,7 +1029,7 @@ function app() {
                         onChange={this._searchQuery}/>
                 <div className ="errorContainer"></div>
                 <div className="listingContainer">
-                      {this._findMin(data)}
+                      {content}
                       <button style={styleObj} className="button" updater={this.props.updater} onClick={this._subList}> Less Results</button> 
                       <button className="button" onClick={this._addList}> More Results</button>
                </div>
@@ -958,24 +1182,20 @@ function app() {
 
         search: function(lat,lng, query, label) {
             var rc = new RecyclingCollection();
-            rc.fetch();
+         
 
-               var yelpData = new YelpFetcher({
+            var yelpData = new YelpFetcher({
                 location: 'Houston',
                 term: 'clothing donation',
                 limit: 10,
                 category_filter: ''
             })
 
-            yelpData.fetch()
 
             var route = window.location.hash.substr(1),
                 routeParts = route.split('/')
             var lat = routeParts[0],
                 lng = routeParts[1]
-
-         
-
             var toyData = new YelpFetcher({
                 location: 'Houston',
                 term: 'toy donation',
@@ -988,8 +1208,11 @@ function app() {
                 limit: 10,
                 category_filter: ''
             })
+            rc.fetch()
             toyData.fetch()
             foodData.fetch()
+
+            yelpData.fetch()
 
             var jsxArray = []
             var data = []
@@ -1025,7 +1248,7 @@ function app() {
                     }
                 }
            
-                DOM.render(<ListingGrid label={label} name={query} lat={lat} lng={lng} rc={rc} tc={toyData} fc={foodData} yelpData={yelpData} jsonData={data}/>, document.querySelector('.container'))
+                DOM.render(<ListingGrid label={label} query={query} lat={lat} lng={lng} rc={rc} tc={toyData} fc={foodData} yelpData={yelpData} jsonData={data}/>, document.querySelector('.container'))
                 
                                        
             }
