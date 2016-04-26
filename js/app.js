@@ -252,7 +252,7 @@ function app() {
 
            _changeHash: function(clickEvent) {
 
-            var label = 'grid'
+            var label = 'all'
             var query = clickEvent.target.value
             location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
           
@@ -444,7 +444,7 @@ function app() {
         },
 
         _changeHash: function(clickEvent) {
-            var label = 'grid'
+            var label = 'all'
             var query = clickEvent.target.value
             location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
           
@@ -698,7 +698,7 @@ function app() {
             }
         },
          _changeHash: function(clickEvent) {
-            var label = 'grid'
+            var label = 'all'
             var query = clickEvent.target.value
             location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
         },
@@ -819,30 +819,30 @@ function app() {
 
     var LandfillListing = React.createClass({
      
-        _getClosest: function(clickEvent) {
-            return (
-                    <div className="listingClosest">*closest to your current location!</div>
-                    )
-        },
-          getInitialState: function() {
+        // _getClosest: function(clickEvent) {
+        //     return (
+        //             <div className="listingClosest">*closest to your current location!</div>
+        //             )
+        // },
+        getInitialState: function() {
             return {
                 more: 'more',
             }
         },
 
-        _getMap: function(clickEvent) {
-            return (
-                    <img className="mapTwo" src="mapPlace.png"/>
-                    )
-        },
+        // _getMap: function(clickEvent) {
+        //     return (
+        //             <img className="mapTwo" src="mapPlace.png"/>
+        //             )
+        // },
 
-        _more: function(clickEvent) {
-            if (this.state.more === 'more') {
-                this.setState({ more: 'less' })
-            } else {
-                this.setState({ more: 'more' })
-            }
-        },
+        // _more: function(clickEvent) {
+        //     if (this.state.more === 'more') {
+        //         this.setState({ more: 'less' })
+        //     } else {
+        //         this.setState({ more: 'more' })
+        //     }
+        // },
 
         _triggerMapView: function(clickEvent) {
             var item = clickEvent.target
@@ -859,7 +859,7 @@ function app() {
             var buttonObj = {}
             var detailObj = {}
         
-          
+          console.log('name', this.props.listing.Name)
             // var url ='https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + this.props.listing.Lat + "," + this.props.listing.Lon + '&heading=151.78&pitch=-0.76&key=AIzaSyAlioIpF4LPLreb8s11Mxtsm5CdDbZRkFQ'
 
             
@@ -869,30 +869,25 @@ function app() {
               styleObj={width: "100%"}
             }
             if(this.props.color <1) {
-                 url = 'westpark.png'
-                className = 'infoDivNone'
-                classNameMat ='infoDivNone'
+                 // url = 'westpark.png'
+                // className = 'infoDivNone'
+                // classNameMat ='infoDivNone'
                 styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
             } 
 
-             if(this.props.color ===1) {
-                 url = 'sunbeam.png'
-             }
+             // if(this.props.color ===1) {
+             //     url = 'sunbeam.png'
+             // }
            
             return (
                 <div>
                     <div userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
                         <div className="wordsContainer">
-                            <div className="streetViewContainer">
-                                <img className="streetView" src={url}/>
-                                <div className="streetViewArrow">
-                             </div>
-                            </div>
+                            
                             <div className="words">
                                 <h3> {this.props.listing.Name} </h3>
                             </div>
                             <div className="buttonContainer">
-
                             <button style={buttonObj} data-index={this.props.color} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
                             <p className="infoMini"> {"\u2672"}{this.props.listing.Address} <br/> {"\u260E"} {this.props.listing.Phone}</p>
                             </div>
@@ -949,19 +944,19 @@ function app() {
                  this._update()
         },
 
-       _changeHash: function(clickEvent) {
-            var label = 'grid'
+        _changeHash: function(clickEvent) {
+            var label = 'all'
             var query = clickEvent.target.value
             location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
       
         },
 
-        _goHome: function(clickEVent){
+        _goHome: function(clickEvent){
             location.hash = `${this.props.lat}/${this.props.lng}`
         },
 
          
-          _searchQuery: function(changeEvent) {
+        _searchQuery: function(changeEvent) {
             this.setState({search:'false'})
             var label = changeEvent.label
             var query = changeEvent.value
@@ -970,19 +965,20 @@ function app() {
             query = ''
         },
 
-        _getListingsJsx: function(resultsArr, i) {
+        _getListingsJsx: function(data, i) {
             var jsxArray = []
             for (var i = 0; i < this.state.list; i++) {
-                var dataObject = resultsArr[i].z.dataObject
-                var component = <Listing color={i} userLat={this.props.lat} userLon={this.props.lng} listing={dataObject} key={i} />
+                var dataObject = data[i].attributes
+                console.log('landfill', dataObject)
+                var component = <LandfillListing color={i} userLat={this.props.lat} userLon={this.props.lng} listing={dataObject} key={i} />
                 jsxArray.push(component)
             }
             return jsxArray
         },
 
         render: function() {
-            var data = this.props.jsonData
-            console.log(data)
+            var data = this.props.jsonData.models
+            console.log('landfilldata', data)
             var navObj ={}
             var className='pickup'
             var styleObj = { 'display': 'none' }
@@ -993,7 +989,7 @@ function app() {
                 content =this._getListingsJsx(data)
             }
             if (this.state.list > 1) {
-                styleObj.display = "inline-block"
+                styleObj.display="inline-block"
             }
            
             if(this.props.query === "paper" || this.props.query === 'plastic'|| this.props.query === 'can' || this.props.query === 'cardboard'){
@@ -1242,7 +1238,7 @@ function app() {
         },
 
        _changeHash: function(clickEvent) {
-            var label = 'grid'
+            var label = 'all'
             var query = clickEvent.target.value
             location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
       
@@ -1546,6 +1542,7 @@ function app() {
         search: function(lat,lng, query, label) {
             var rc = new RecyclingCollection()
             var lc = new LandfillCollection();
+            console.log('lc', lc)
             var yelpData = new YelpFetcher({
                 location: 'Houston',
                 term: 'clothing donation',
@@ -1647,6 +1644,7 @@ function app() {
             }
 
             if (query === "landfills") {
+                 console.log('rendering landfill')
                      DOM.render(<LandfillGrid 
                             label={label} 
                             query={query}
@@ -1657,10 +1655,10 @@ function app() {
                             tc={toyData}
                             fc={foodData} 
                             yelpData={yelpData} 
-                            jsonData={data}/>, document.querySelector('.container'))
+                            jsonData={lc}/>, document.querySelector('.container'))
             }
 
-            if (query !== "dump" && query !== "food" && query !== "clothing" && query !== "toy" && query !== "animal" && query !== "body" && query !== "landfill") {
+            if (query !== "dump" && query !== "food" && query !== "clothing" && query !== "toy" && query !== "animal" && query !== "body" && query !== "landfills") {
                 for (var i = 0; i < resultsArr.length; i++) {
                     var dataObject = resultsArr[i]
                     var categories = dataObject.attributes.Category

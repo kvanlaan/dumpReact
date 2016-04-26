@@ -66,6 +66,7 @@ var list = [
                 { label: "toy", value: 'toy' },
                 { label: "toys", value: 'toy' },
                 { label: "car", value: 'car' },
+                { label: "landfills", value: 'landfills' },
                 { label: "trash", value: 'dump' },
                 { label: "leftovers", value: 'dump' },
                 { label: "animal", value: 'animal' },
