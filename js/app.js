@@ -251,7 +251,6 @@ function app() {
         },
 
            _changeHash: function(clickEvent) {
-
             var label = 'all'
             var query = clickEvent.target.value
             location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
@@ -289,7 +288,7 @@ function app() {
                         </div>
                         <div  className="dashNavBar">
                             <div className = "dashElBar">
-                                <div  onClick={this._changeHash}value="paper" className="dashNavEl">
+                                <div  onClick={this._changeHash} value="recycling" className="dashNavEl">
                                 Recycling Centers
                                 </div>
                             <div  onClick={this._changeHash} value="clothing" className="dashNavEl">
@@ -473,7 +472,7 @@ function app() {
                         </div>
                     </div>
                     <div onClick={this._changeHash}  className="dashNavBar">
-                        <div  value="paper" className="dashNavEl">
+                        <div  value="recycling" className="dashNavEl">
                             Recycling Centers
                         </div>
                         <div  value="clothing" className="dashNavEl">
@@ -553,7 +552,7 @@ function app() {
                         </div>
                     </div>
                     <div onClick={this._changeHash}  className="dashNavBar">
-                        <div  value="paper" className="dashNavEl">
+                        <div  value="recycling" className="dashNavEl">
                         Recycling Centers
                         </div>
                         <div  value="clothing" className="dashNavEl">
@@ -635,7 +634,7 @@ function app() {
                         </div>
                     </div>
                     <div onClick={this._changeHash}  className="dashNavBar">
-                        <div  value="paper" className="dashNavEl">
+                        <div  value="recycling" className="dashNavEl">
                             Recycling Centers
                         </div>
                         <div  value="clothing" className="dashNavEl">
@@ -745,7 +744,7 @@ function app() {
 
                <div onClick={this._changeHash}  className = "dashNavBar">
                <div className = "dashElBar">
-                 <div  value="paper" className="dashNavEl">
+                 <div  value="recycling" className="dashNavEl">
                Recycling Centers
                </div>
                <div  value="clothing" className="dashNavEl">
@@ -903,7 +902,7 @@ function app() {
         getInitialState: function() {
             return {
                 search: true,
-                list: 1,
+                list: 3,
                 delete: false,
                 lat: this.props.lat,
                 lng: this.props.lng,
@@ -1020,7 +1019,7 @@ function app() {
                     </div>
                     <div className = "dashNavBar">
                         <div className = "dashElBar">
-                            <div  onClick={this._changeHash} value="paper" className="dashNavEl">
+                            <div  onClick={this._changeHash} value="recycling" className="dashNavEl">
                                 Recycling Centers
                             </div>
                             <div  onClick={this._changeHash}value="clothing" className="dashNavEl">
@@ -1254,6 +1253,7 @@ function app() {
             var hypArr = []
             for (var i = 0; i < resultsArr.length; i++) {
                 var dataObject = resultsArr[i].attributes
+                console.log('dataObject', dataObject)
                 var hyp = (Math.pow(dataObject.Lat - this.props.lat, 2) + Math.pow(dataObject.Lon - this.props.lng, 2))
                 var hypObj = { x: i, y: hyp, z: { dataObject } }
                 objArr.push(hypObj)
@@ -1270,7 +1270,7 @@ function app() {
         },
 
          
-          _searchQuery: function(changeEvent) {
+        _searchQuery: function(changeEvent) {
             this.setState({search:'false'})
             var label = changeEvent.label
             var query = changeEvent.value
@@ -1300,9 +1300,6 @@ function app() {
             var content= <img className="loadingGifThree" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
             var title ="recycling centers"
 
-            if(this.props.query === "landfills"){
-                title ="landfills"
-            }
 
             if(data.length > 2){
                 content =this._findMin(data)
@@ -1312,7 +1309,6 @@ function app() {
             }
            
             if(this.props.query === "paper" || this.props.query === 'plastic'|| this.props.query === 'can' || this.props.query === 'cardboard'){
-                console.log('check')
                  className='pickupTwo'
              } else {
                 className='pickup'
@@ -1348,7 +1344,7 @@ function app() {
                     </div>
                     <div className = "dashNavBar">
                         <div className = "dashElBar">
-                            <div  onClick={this._changeHash} value="paper" className="dashNavEl">
+                            <div  onClick={this._changeHash} value="recycling" className="dashNavEl">
                                 Recycling Centers
                             </div>
                             <div  onClick={this._changeHash}value="clothing" className="dashNavEl">
@@ -1658,7 +1654,24 @@ function app() {
                             jsonData={lc}/>, document.querySelector('.container'))
             }
 
-            if (query !== "dump" && query !== "food" && query !== "clothing" && query !== "toy" && query !== "animal" && query !== "body" && query !== "landfills") {
+            if (query === "recycling"){
+                console.log('renderin rc')
+                rc = rc.models
+                DOM.render(<ListingGrid 
+                            label={label} 
+                            query={query}
+                            lat={lat} 
+                            lng={lng}
+                            lc={lc} 
+                            rc={rc} 
+                            tc={toyData}
+                            fc={foodData} 
+                            yelpData={yelpData} 
+                            jsonData={rc}/>, document.querySelector('.container'))
+
+            } 
+
+            if (query !== "dump" && query !== "food" && query !== "clothing" && query !== "toy" && query !== "animal" && query !== "body" && query !== "landfills"&& query !== "recycling") {
                 for (var i = 0; i < resultsArr.length; i++) {
                     var dataObject = resultsArr[i]
                     var categories = dataObject.attributes.Category
