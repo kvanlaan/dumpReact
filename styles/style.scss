@@ -193,25 +193,6 @@ h3 {
 
 //zip code and open source boxes shared styling//
 
-//x out button
-.buttonX {
-    background-color: transparent;
-    left: -2%;
-    margin-top: -2%;
-    margin-left: -2%;
-    border: .3px white;
-    padding: 0;
-    top: -10px;
-}
-
-.buttonX:focus {
-   outline: 0;
-}
-
-.buttonX:hover {
-   color: white;
-}
-
 //link styling
 .boxLink {
     color:#9F6000;
@@ -249,6 +230,7 @@ h3 {
     font-weight: bold;
     box-shadow: none;
     position: fixed;
+    z-index: 2;
     box-shadow: inset 0 0 10px #D3D3D3;
 }
 
@@ -262,10 +244,9 @@ h3 {
     border-radius: 100%;
     margin-top: .8%;
     margin-left: auto;
-    margin-right: auto;
+    left: 45%;
     color: #85D9BF;
     border: none;
-    right: 1%;
     width: 60px;
     height: 60px;
     font-size: 17px;
@@ -273,7 +254,7 @@ h3 {
     top: 0;
     font-weight: bold;
     box-shadow: none;
-    position: fixed;
+    position: relative;
     box-shadow: inset 0 0 10px #D3D3D3;
 }
 
@@ -283,10 +264,10 @@ h3 {
 
 //inner container for dash elements 
 .dashElBar {
-    max-width: 85%;
+    max-width: 70%;
     position: relative;
     margin-left: auto;
-    margin-right: -1.1%;
+    margin-right: auto;
     margin-top: .5%;
 }
 
@@ -294,7 +275,8 @@ h3 {
 .dashNavBar {
     width: 100%;
     height: 5%;
-    margin-left: 10%;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 0;
     position: fixed;
     top: 0;
@@ -724,6 +706,24 @@ a .miscText {
     background-position: 10px center;
     color: #9F6000;
     background-color: #FEEFB3;
+}
+
+.pickupX {
+    background-color: transparent;
+    left: -2%;
+    margin-top: -2%;
+    margin-left: -2%;
+    border: .3px white;
+    padding: 0;
+    top: -10px;
+}
+
+.pickupX:focus {
+   outline: 0;
+}
+
+.pickupX:hover {
+   color: white;
 }
 //end zip code box styling//
 
