@@ -58,6 +58,7 @@ import React, {PropTypes, Component} from 'react'
            var newName ="dirMap"
            var styleObj={}
            var styleObjTwo={}
+      
            if(!this.state.clicked){
                arrow ="\u25B6"
            }
@@ -66,7 +67,7 @@ import React, {PropTypes, Component} from 'react'
                arrow="\u25BC"
                newName ="dirMapTwo"
                styleObj={width:'33%', marginLeft: 0, marginTop: 0, left:'5.72%', fontSize: '24px'}
-                styleObjTwo={height: '9%', width:'4%', left: '1.2%', marginRight: '0%'}
+                styleObjTwo={height: '9%', width:'4%', left: '1.2%', marginRight: '0%' padding: '3%'}
            }
         
            return (
@@ -81,7 +82,7 @@ import React, {PropTypes, Component} from 'react'
                    <div className="directions">
                    {content}
                    </div>
-                   <div  className={newName}></div>
+                   <div className={newName}></div>
                    <div className="pano"></div>
                </div>
                )

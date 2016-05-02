@@ -425,7 +425,7 @@ h3 {
    font-size: 45px;
    margin-left: 0%;
    padding: 1%;
-   left: 20%;
+   left: 24%;
    margin-top: 1%;
    width: 45%;
    border-radius: 25px;
@@ -1140,16 +1140,23 @@ a .miscText {
 
 .dirTitle {
     width:80px;
-    margin-top: 35px;
+    margin-top: auto;
     left: 1.2%;
-    font-size: 10px;
+    font-size: 30px;
 }
 
+.dirTitleDirect {
+    display: none;
+}
+
+.dirButton {
+
+}
 .dirH1 {
-width:350px;
+left: 23%;
+width: 76%;
 margin-left: 0;
 margin-top: 0;
-  font-size: 24px;
 
 }
 .closest {
@@ -1170,7 +1177,7 @@ h3 {
             width: 100%;
     }
 
-.neighborhoodTwo {
+.pickupTwo {
     width: 400px;
     padding: 1px;
     left:0%;
@@ -1202,7 +1209,7 @@ h3 {
     display: none;
  }
 
-.miniInfo {
+.infoMini {
     margin-top: 5%;
 }
 
@@ -1211,14 +1218,20 @@ h3 {
 
 }
 
-.navBar {
+.dashNavBar {
     display:none;
 }
 
-.meButton {
+.dashElBar {
+    display:none;
+}
+.dashHomeButton {
     display: none;
 }
 
+.dirMapTwo{
+    display: none;
+}
 .map {
       width: 400px;
     height: 632px;
