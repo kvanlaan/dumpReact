@@ -403,7 +403,7 @@ h3 {
    max-width: 40%;
    height: 93%;
    font-size: 40px;
-   margin-top: 11%;
+   margin-top: 12%;
    padding: 5%;
    color: white;
    left: 0%;
@@ -431,7 +431,21 @@ h3 {
    border-radius: 25px;
    border: 6px solid white;
 }
-
+.dirH1Two {
+   background-color: rgba(255, 255, 255, 0.5);
+   display: inline-block;
+   position: absolute;
+   color:#85D9BF;
+   text-align: left;
+   font-size: 18px;
+   margin-left: 0%;
+   padding: 1%;
+   left: 6%;
+   margin-top: 0%;
+   width: 31.5%;
+   border-radius: 25px;
+   border: 6px solid white;
+  }
 //styling for the actual directions//
 .dirInstruction {
    border-radius: 25px;
@@ -1123,14 +1137,41 @@ a .miscText {
 
 @media only screen and (max-width: 640px) {
   
-  .listing  {
+//listing styling//
+.listing  {
     width: 100%;
-  }
 
-  .wordsContainer {
-    width: 90%;
+}
+
+.wordsContainer {
+    width: 96%;
     padding: 8px;
     
+}
+.words {
+    margin-top: 0%;
+    top: 0;
+    font-size: 25px;
+}
+
+h3 {
+    font-size: 30px;
+}
+
+.listingClosest {
+    font-size: 16px;
+}
+
+
+//end listing styling//
+
+//button styling//
+.button {
+    font-size: 13px;
+}
+
+.infoMoreButton {
+       font-size: 13px;
 }
 
 .moreButton {
@@ -1138,11 +1179,15 @@ a .miscText {
     box-shadow: inset 0 0 2px #000000;
 }
 
+//end button styling//
+
+//directions styling//
+
 .dirTitle {
-    width:80px;
+    width:11%;
     margin-top: auto;
-    left: 1.2%;
-    font-size: 30px;
+    left: 1%;
+    font-size: 26px;
 }
 
 .dirTitleDirect {
@@ -1153,39 +1198,53 @@ a .miscText {
 
 }
 .dirH1 {
-left: 23%;
-width: 76%;
-margin-left: 0;
-margin-top: 0;
-
-}
-.closest {
-    font-size: 20px;
-    margin-bottom: 5%;
-}
-.words {
-    margin-top: 0%;
-    top: 0;
-    font-size: 25px;
+    left: 23%;
+    width: 76%;
+    margin-left: 0;
+    margin-top: 0;
 }
 
-h3 {
-    font-size: 40px;
+.dirH1Two {
+   left: 12%;
+   width: 89%;
 }
-    .directions {
-            margin-top: 100px;
-            width: 100%;
-    }
 
+ .directions {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 43%;
+    margin-right: 0;
+    padding: 0;
+}
+
+
+.dirMapTwo{
+    display: none;
+}
+.map {
+      width: 400px;
+    height: 632px;
+}
+.mapNone {
+    display: none;
+
+}
+
+
+//end directions styling//
+
+//zipcode box styling//
 .pickupTwo {
     width: 400px;
     padding: 1px;
     left:0%;
     margin-top: 0%;
     top: 0;
-
 }
 
+//end zipcode box styling//
+
+//info styling//
 
 .info {
     width: 100%;
@@ -1201,6 +1260,14 @@ h3 {
     font-size: 15px;
     padding: 0;
 }
+
+.infoMini {
+    margin-top: 5%;
+}
+
+//end info styling//
+
+//streetview styling//
 .streetViewContainer {
     display: none;
 }
@@ -1208,11 +1275,10 @@ h3 {
 .wordsContainer:hover > .streetViewContainer{
     display: none;
  }
+//end streetview styling//
 
-.infoMini {
-    margin-top: 5%;
-}
 
+//dashbar styling//
 .dashButton {
     display: none;
 
@@ -1228,19 +1294,7 @@ h3 {
 .dashHomeButton {
     display: none;
 }
+//end dash styling//
 
-.dirMapTwo{
-    display: none;
-}
-.map {
-      width: 400px;
-    height: 632px;
-}
-.mapNone {
-    // width: 400px;
-    // height: 632px;
-    display: none;
-
-   }
 
 }
