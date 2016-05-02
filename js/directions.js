@@ -67,7 +67,7 @@ import React, {PropTypes, Component} from 'react'
                arrow="\u25BC"
                newName ="dirMapTwo"
                styleObj={width:'33%', marginLeft: 0, marginTop: 0, left:'5.72%', fontSize: '24px'}
-                styleObjTwo={height: '9%', width:'4%', left: '1.2%', marginRight: '0%' padding: '3%'}
+                styleObjTwo={height: '9%', width:'4%', left: '1.2%', marginRight: '0%', padding: '3%'}
            }
         
            return (
