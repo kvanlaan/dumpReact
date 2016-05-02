@@ -310,8 +310,9 @@ import {NineView} from './nineview'
                 Landfills
                </div>
                </div>
-               </div>
+               
                <button onClick={this._goHome}className="meButton">home</button>
+                  </div>
                   </div>
                   <div className="header"><h1>Dump<div className="title">{title}</div></h1></div>
                     <Select 

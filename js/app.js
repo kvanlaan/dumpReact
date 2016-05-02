@@ -126,7 +126,7 @@ function app() {
                </div>
 
                <div onClick={this._changeHash}  className = "navBar">
-               <div className = "elBar">
+               <div className="elBar">
                  <div  value="paper" className="navEl">
                Recycling Centers
                </div>
@@ -144,9 +144,10 @@ function app() {
                 Landfills
                </div>
                </div>
-               </div>
+              
                <button onClick={this._goHome} className="meButton">home</button>
                </div>
+                </div>
                   <div className="header"><h1 style={styleObj}>Dump</h1></div>
                     <Select 
                         className="select" 

@@ -145,8 +145,9 @@ import {ClothingListing} from './ClothingListing'
                 Landfills
                </div>
                </div>
-               </div>
+               
                <button onClick ={this._goHome} className="meButton">home</button>
+               </div>
                </div>
                   <div className="header"><h1 >Dump<div className="title">{this.props.name} donation</div></h1></div>
                    
