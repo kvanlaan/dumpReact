@@ -332,7 +332,7 @@ h3 {
 
 
 .dashNavEl {
-        font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
+    font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
     background-color: white;
     border-radius: 25px;
     margin-top: 1.5%;
@@ -824,8 +824,6 @@ h3 {
    color: #FCFAC9;
 }
 
-
-
 .listingTitle {
   text-decoration: underline;
   text-transform: lowercase;
@@ -836,22 +834,16 @@ h3 {
 }
 //end general listing styling//
 
-
-
 //loadingGifs//
 .loadingGif {
    position: relative;
    margin-top: 30%;
 }
 
-
-
 .loadingGifTwo {
    position: relative;
    margin-top: 10%;
 }
-
-
 
 .loadingGifThree {
    margin: auto;
@@ -867,18 +859,16 @@ h3 {
 }
 
 .mapTwo {
-   width: 290px;
-   height: 290px;
+   width: 240px;
+   height: 240px;
    margin-left: 2%;
    border-radius: 25px;
    border: 6px solid white;
+   vertical-align: top;
 }
 
 
-
 //misc views (911, 311)//
-
-
 
 .misc {
    text-align: center;
@@ -896,11 +886,7 @@ h3 {
    border-radius: 25px;
    border: 2px solid white;
 
-
-
 }
-
-
 
 .miscText {
    background-color: rgba(255, 255, 255, 0.2);

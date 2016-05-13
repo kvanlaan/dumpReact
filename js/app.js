@@ -473,7 +473,7 @@ function app() {
                routeLng = routeParts[1]
            var content ={}
            if (routeLat === ""){
-                 content =<img className="loadingGif" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
+                 content =<img className="loadingGif" src="https://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
 
 
 
@@ -522,7 +522,7 @@ function app() {
 
     var YelpFetcher = Backbone.Collection.extend({
 
-        url: "http://yelphubb.herokuapp.com/api/yelp",
+        url: "https://yelphubb.herokuapp.com/api/yelp",
 
         _setUrl: function(pString){
             this.url += "?"+pString
@@ -770,8 +770,6 @@ function app() {
 
            }
 
-
-
            if (query !== "dump" && query !== "food" && query !== "clothing" && query !== "toy" && query !== "animal" && query !== "body" && query !== "landfills"&& query !== "recycling") {
                for (var i = 0; i < resultsArr.length; i++) {
                    var dataObject = resultsArr[i]
@@ -799,12 +797,8 @@ function app() {
                                      
            }
 
-
-
      
        },
-
-
 
        home: function(){
            var successCallback = function(positionObject) {
@@ -822,8 +816,6 @@ function app() {
 
            var rc = new RecyclingCollection();
            rc.fetch();
-
-
 
            var lc = new LandfillCollection();
            lc.fetch();
