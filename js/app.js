@@ -190,6 +190,7 @@ function app() {
                     <button onClick={this._goHome} className="dashHomeButton">home</button>
               </div>
               </div>
+              <span>
               <div className="header"><h1 style={styleObj}>Dump</h1></div>
                 <Select
                    className="select"
@@ -206,6 +207,7 @@ function app() {
                 />
                <div className ="errorContainer"></div>
                <div className="listingContainer"></div>
+               </span>
              </div>
              </div>
          )

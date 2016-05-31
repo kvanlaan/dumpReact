@@ -360,6 +360,7 @@ import {NineView} from './nineview'
                        <button onClick={this._goHome} className="dashHomeButton">home</button>
                     </div>
                </div>
+               <span>
                <div className="header"><h1>Dump<div className="listingTitle">{title}</div></h1></div>
                    <Select
                        className="select"
@@ -380,6 +381,7 @@ import {NineView} from './nineview'
                      {content}
                      <button style={styleObj} className="button" updater={this.props.updater} onClick={this._subList}> Less Results</button>
                      <button className="button" onClick={this._addList}> More Results</button>
+                     </span>
               </div>
               </div>
            </div>
