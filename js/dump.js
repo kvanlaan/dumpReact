@@ -122,6 +122,7 @@ import React, {PropTypes, Component} from 'react'
                     <button onClick={this._goHome} className="dashHomeButton">home</button>
               </div>
               </div>
+              <span>
                    <div className="header">
                        <h1>Dump<div className="listingTitle"> it!</div></h1>
                    </div>
@@ -141,6 +142,7 @@ import React, {PropTypes, Component} from 'react'
                        options={list}
                        onChange={this._searchQuery}    />
                    <img className="loadingGifTwo" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
+          </span>
           </div>
           )
       }
