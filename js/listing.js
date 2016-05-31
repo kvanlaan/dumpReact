@@ -381,8 +381,9 @@ import {NineView} from './nineview'
                      {content}
                      <button style={styleObj} className="button" updater={this.props.updater} onClick={this._subList}> Less Results</button>
                      <button className="button" onClick={this._addList}> More Results</button>
-                     </span>
+                     
               </div>
+              </span>
               </div>
            </div>
            )
