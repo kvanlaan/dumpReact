@@ -138,6 +138,7 @@ import {DumpView} from './dump'
                var dataObject = resultsArr[i].attributes
                console.log('dataObject', dataObject)
             var coord = "https://maps.googleapis.com/maps/api/geocode/json?address=" + dataObject.Address + "TX&key=AIzaSyAGcVpoS35RezE4cQzMXcH-M1VdQgZXuw0"
+            var coordDat = $.get(coord)
               coordDat.then(function(data){
                      newLatitude = data.results[0].geometry.location.lat
                      newLongitude = data.results[0].geometry.location.lon
