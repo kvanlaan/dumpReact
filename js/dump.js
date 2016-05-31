@@ -141,7 +141,7 @@ import React, {PropTypes, Component} from 'react'
                        value=""
                        options={list}
                        onChange={this._searchQuery}    />
-                   <img className="loadingGifTwo" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
+                   <img className="loadingGifTwo" src="https://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
           </span>
           </div>
           )

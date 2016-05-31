@@ -131,7 +131,7 @@ import React, {PropTypes, Component} from 'react'
                            onChange={this._searchQuery}    />
                    <div className="misc">
                     311 <br/>
-                   url: <a style={{'color': 'white'}} href="http://www.houstontx.gov/311/"> http://www.houstontx.gov/311/ </a><br/>
+                   url: <a style={{'color': 'white'}} href="https://www.houstontx.gov/311/"> http://www.houstontx.gov/311/ </a><br/>
                  Phone: (713) 837-0311
                    </div>
                </div>
