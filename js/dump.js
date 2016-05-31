@@ -126,7 +126,7 @@ import React, {PropTypes, Component} from 'react'
                    <div className="header">
                        <h1>Dump<div className="listingTitle"> it!</div></h1>
                    </div>
-                   </div>
+                  
                    <Select
                        className="select"
                        lat={this.props.lat}
