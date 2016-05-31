@@ -59,36 +59,36 @@ ul, ol {
     }
 }
 
-@mixin grid_r($col, $width, $padding: 0) {
-    @media screen and (min-width: #{$width}px) {
-        .grid-#{$col}-#{$width} {
-            & > * {
-                width: #{100/$col}%;
-                padding: #{$padding}px;
-            }
-        }
-    }
-}
+// @mixin grid_r($col, $width, $padding: 0) {
+//     @media screen and (min-width: #{$width}px) {
+//         .grid-#{$col}-#{$width} {
+//             & > * {
+//                 width: #{100/$col}%;
+//                 padding: #{$padding}px;
+//             }
+//         }
+//     }
+// }
 
-@mixin grid($col, $padding: 0) {
-    .grid-#{$col} {
-        & > * {
-            width: #{100/$col}%;
-            padding: #{$padding}px;
-        }
-    }
-}
+// @mixin grid($col, $padding: 0) {
+//     .grid-#{$col} {
+//         & > * {
+//             width: #{100/$col}%;
+//             padding: #{$padding}px;
+//         }
+//     }
+// }
 
-@include grid(2);
-@include grid(4);
-@include grid(8);
-@include grid_r(2,400);
-@include grid_r(2,800);
-@include grid_r(4,400);
-@include grid_r(4,800);
-@include grid_r(8,800);
-@include grid_r(8,1024);
-@include grid_r(8,1280);
+// @include grid(2);
+// @include grid(4);
+// @include grid(8);
+// @include grid_r(2,400);
+// @include grid_r(2,800);
+// @include grid_r(4,400);
+// @include grid_r(4,800);
+// @include grid_r(8,800);
+// @include grid_r(8,1024);
+// @include grid_r(8,1280);
 
 /**
  * GENERAL
@@ -258,8 +258,8 @@ h3 {
     font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
     background-color: white;
     border-radius: 100%;
-    margin-top: .8%;
-    margin-left: auto;
+    margin-top: 0%;
+    margin-left: 2%;
     margin-right: auto;
     color: #85D9BF;
     border: none;
@@ -269,6 +269,7 @@ h3 {
     font-size: 17px;
     line-height: 1;
     top: 0;
+    vertical-align: top;
     font-weight: bold;
     box-shadow: none;
     position: relative;
@@ -313,6 +314,8 @@ h3 {
     width:80%;
     position: relative;
     margin-top: .5%;
+    margin-bottom: 0;
+    margin-right: auto;
     display: inline-block;
 }
 
@@ -333,28 +336,64 @@ h3 {
 
 .dashNavEl {
     font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
-    background-color: white;
-    border-radius: 25px;
+    // background-color: white;
     margin-top: 1.5%;
     margin-left: 1%;
-    padding-right: 1%;
-    padding-left: 1%;
-    margin-right: auto;
-    color: #85D9BF;
+    width: 15%;
+    margin-bottom: 0;
+    margin-right: 1%;
     border: none;
     position: relative;
     font-weight: bold;
     box-shadow: none;
     display: inline-block;
-    box-shadow: inset 0 0 10px #D3D3D3;
+    // box-shadow: inset 0 0 10px #D3D3D3;
     cursor: pointer; 
+    vertical-align: top;
 }
 
+.dashNavElTitle {
+    background-color: rgba(255, 255, 255, 0.5);
+     // border: 1px solid white;
+    color: #85D9BF;
+    background-color: white;
+    border-radius: 25px;
+    padding-bottom: 0;
+    padding-right: 1%;
+    padding-left: 1%;
+    top: 0;
+    vertical-align: top;
+}
+
+.drop {
+  display: inline;
+  visibility: hidden;
+  // position: absolute;
+  color: white; 
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.dropEl {
+   background: rgba(255, 255, 255, 0.5);
+   border: 1px solid white;
+   border-radius: 25px;
+   width: 75%;
+   margin-left: 12.5%;
+   padding: 0;
+   margin-bottom: 0;
+  margin-top: 0;
+}
+
+.dashNavEl:hover > .drop {
+  visibility: visible;
+  background-color: rgba(255, 255, 255, 0.5);
+}
 
 //open source box
 
 .dashOpenSource {
-        width: 400px;
+    width: 400px;
     padding: 5px;
     left:5%;
     margin-top: 0%;
@@ -371,17 +410,9 @@ h3 {
     text-align: center;
      -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
      transition: width 2s, height 2s, background-color 2s, transform 2s, display 2s;
-   
 }
-
-
-
 //End Dash Styling//
-
-
 //Google Directions Styling//
-
-
 
 //Directions button/title
 
@@ -551,8 +582,6 @@ h3 {
    position: absolute;
 }
 
-
-
 .dirTitleDirect {
    background-color: white;
    display: inline-block;
@@ -562,6 +591,14 @@ h3 {
 
 //End Google Directions Styling//
 
+
+//header styling//
+
+.header {
+  margin-top: 9%;
+}
+
+//endheader styling//
 
 .imgContainer {
    background-color: rgba(255, 255, 255, 0.5);
@@ -894,146 +931,60 @@ h3 {
 }
 
 
-
 a .miscText {
    color:white;
 }
-
-
-
 //end misc views//
 
 
 //zip code pick up box styling//
-
-
 .pickup {
-
    width: 300px;
    padding: 5px;
    padding-top: 1px;
    left:2%;
    margin-bottom: 0%;
-
-
    position: fixed;
-
-
    border: 1px solid;
-
-
    background-repeat: no-repeat;
-
-
    background-position: 10px center;
-
-
    color: #9F6000;
-
-
    background-color: #FEEFB3;
-
-
    visibility: hidden;
-
-
 }
 
-
-
-
-
-
-
 .pickupTwo {
-
-
    width: 300px;
-
-
    padding: 5px;
-
-
    padding-top: 1px;
-
-
    left:2%;
-
-
    top: 20%;
-
-
    margin-bottom: 0%;
-
-
    position: fixed;
-
-
    border: 1px solid;
-
-
    background-repeat: no-repeat;
-
-
    background-position: 10px center;
-
-
    color: #9F6000;
-
-
    background-color: #FEEFB3;
-
 }
 
 .pickupX {
-
-
    background-color: transparent;
-
-
    left: -2%;
-
-
    margin-top: -2%;
-
-
    margin-left: -2%;
-
-
    border: .3px white;
-
-
    padding: 0;
-
-
    top: -10px;
-
-
 }
-
-
-
-
-
-
 
 .pickupX:focus {
-
-
   outline: 0;
-
-
 }
-
 
 .pickupX:hover {
-
-
   color: white;
-
-
 }
-
 
 //end zip code box styling//
 
@@ -1100,12 +1051,11 @@ a .miscText {
    display: inline;
 }
 
-
-
 .words {
     width: 70%;
     display: inline-block;
 }
+
 .wordsContainer {
    background-color: #85D9BF;
    margin-top: 5%;
@@ -1119,10 +1069,24 @@ a .miscText {
 }
 //end listing titles//
   
+@media only screen and (max-width: 900px) {
+  .dropNavEl {
+  font-size: medium;
+  width: 110%;
+}
 
+.drop {
+  font-size: small;
+}
+
+.header {
+  margin-top: 14%;
+}
+
+}
 
 @media only screen and (max-width: 640px) {
-  
+
 //listing styling//
 .listing  {
     width: 100%;
@@ -1267,7 +1231,6 @@ h3 {
 //dashbar styling//
 .dashButton {
     display: none;
-
 }
 
 .dashNavBar {

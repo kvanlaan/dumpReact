@@ -11,11 +11,11 @@ import {ClothingListing} from './ClothingListing'
 import {ClothingGrid} from './ClothingGrid'
 import {DirectionsView,Instruction} from './directions'
 import {ThreeView} from './threeview'
-import {LandfillListing,LandfillGrid} from './landfill'
 import {NineView} from './nineview'
+import {Listing,ListingGrid} from './listing'
+import {DumpView} from './dump'
 
-  
-   var Listing = React.createClass({
+   var LandfillListing = React.createClass({
    
        _getClosest: function(clickEvent) {
            return (
@@ -28,20 +28,6 @@ import {NineView} from './nineview'
            }
        },
 
-       _getMap: function(clickEvent) {
-           return (
-                   <img className="mapTwo" src="mapPlace.png"/>
-                   )
-       },
-
-       _more: function(clickEvent) {
-           if (this.state.more === 'more') {
-               this.setState({ more: 'less' })
-           } else {
-               this.setState({ more: 'more' })
-           }
-       },
-
        _triggerMapView: function(clickEvent) {
            var item = clickEvent.target
            var lat=this.props.userLat
@@ -51,8 +37,6 @@ import {NineView} from './nineview'
        },
     
        render: function() {
-           var triangle = ''
-           var content = ''
            var closest = ''
            var styleObj ={}
            var styleObjThree ={}
@@ -60,20 +44,7 @@ import {NineView} from './nineview'
            var detailObj = {}
            var className ="infoDiv"
            var classNameMat ="infoDivMat"
-           var infoType ={fontWeight: 'bold', textDecoration: 'underline', marginLeft: 0}
-           if(this.state.more === 'more'){
-               triangle ="\u25B6"
-           }
-       
-           var url ='https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + this.props.listing.Lat + "," + this.props.listing.Lon + '&heading=151.78&pitch=-0.76&key=AIzaSyAlioIpF4LPLreb8s11Mxtsm5CdDbZRkFQ'
-
-           if (this.state.more === 'less') {
-               triangle="\u25BC"
-               detailObj = { display: 'block' }
-           } else {
-               detailObj = { display: "none" }
-           }
-          
+           var url ='https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + this.props.listing.Address + '&heading=151.78&pitch=-0.76&key=AIzaSyAlioIpF4LPLreb8s11Mxtsm5CdDbZRkFQ'
            if(this.props.color >0) {
                styleObjThree={display:'inline-block'}
             
@@ -81,64 +52,43 @@ import {NineView} from './nineview'
            }
            if(this.props.color <1) {
                 url = 'westpark.png'
-               content = this._getMap()
+               styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
+
                closest = this._getClosest()
                className = 'infoDivNone'
                classNameMat ='infoDivNone'
                styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
            }
+            // if(this.props.color ===1) {
+            //     url = 'sunbeam.png'
+            // }
 
-            if(this.props.color ===1) {
-                url = 'sunbeam.png'
-            }
-         
+        
            return (
                <div>
                    <div userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
                        <div className="wordsContainer">
-                           <div className="streetViewContainer">
+                       <div className="streetViewContainer">
                                <img className="streetView" src={url}/>
                                <div className="streetViewArrow">
                             </div>
                            </div>
                            <div className="words">
-                               <h3 data-lat={this.props.userLat} data-lon={this.props.userLon} data-locLat={this.props.listing.Lat} data-locLng={this.props.listing.Lon} onClick={this._triggerMapView} data-name={this.props.listing.Business}> {this.props.listing.Business} </h3>
-                               <div className="infoMoreButtonContainer">
-                                   <button onClick={this._more} className="button">{triangle} {this.state.more} info</button>
-                               </div>
+                               <h3> {this.props.listing.Name} </h3>
                            </div>
                            <div className="buttonContainer">
-                               {closest}
-                           <button style={buttonObj} data-index={this.props.color} data-locLat={this.props.listing.Lat} data-locLng={this.props.listing.Lon} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
+                              {closest}
+                           <button style={buttonObj} data-index={this.props.color} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
                            <p className="infoMini"> {"\u2672"}{this.props.listing.Address} <br/> {"\u260E"} {this.props.listing.Phone}</p>
                            </div>
                        </div>
                    </div>
-                   <div className="info" style={detailObj}>
-                       <div style={styleObj} className="infoWords" >
-                           <div className={className}>
-                               <div style={infoType}> Hours:</div>
-                               {this.props.listing.Hours}<br/>
-                           </div>
-                           <div className={className}>
-                                <div style={infoType}>Categories:</div>
-                                {this.props.listing.Category} <br/>
-                           </div>
-                           <div className={classNameMat}>
-                               <div style={infoType}>Materials:
-                               </div>
-                               {this.props.listing.Materials}
-                           </div>
-                       </div>
-                          {content}
-                   </div>
                </div>
                )
                }
-
    })
-  
-   var ListingGrid = React.createClass({
+
+   var LandfillGrid = React.createClass({
        getInitialState: function() {
            return {
                search: true,
@@ -150,19 +100,10 @@ import {NineView} from './nineview'
                zip: false
            }
        },
-      _addList: function() {
-        if(this.props.state === 'Wisconsin'){
-          this.state.list += 1
-        }else{
-           this.state.list += 2
-         }
-           this._update()
-       },
-    
        componentDidMount: function() {
            var self = this
-           this.props.rc.on('sync', function() { self.forceUpdate() })
-           this.props.rcm.on('sync', function() { self.forceUpdate() })
+           this.props.jsonData.on('sync', function() { self.forceUpdate() })
+            this.props.lcm.on('sync', function() { self.forceUpdate() })
        },
 
        _clicked: function(clickEvent){
@@ -173,32 +114,36 @@ import {NineView} from './nineview'
                this.setState({clicked: false})
            }
        },
-
-          _changeHash: function(clickEvent) {
-           var label = 'all'
-           var state = ''
-           var query = clickEvent.target.value
-               query = query.split(' ')
-            if(query[1] =='Wisconsin'){
-            state ='Wisconsin'
-           }else {
-            state = 'Texas'
-           }
-
-           query = query[0] 
-           location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}/${state}`
+       _update: function() {
+           this.setState({
+               more: this.state.more,
+               list: this.state.list
+           })
+       },
+       _addList: function() {
+           this.state.list += 2
+           this._update()
        },
 
-        _delete: function() {
+       _delete: function() {
            this.setState({ delete: true})
        },
 
-         _findMin: function(resultsArr, w) {
+      _findMin: function(resultsArr, w) {
+           var newLatitude = 0
+           var newLongitude = 0
            var objArr = []
            var hypArr = []
            for (var i = 0; i < resultsArr.length; i++) {
                var dataObject = resultsArr[i].attributes
-               var hyp = (Math.pow(dataObject.Lat - this.props.lat, 2) + Math.pow(dataObject.Lon - this.props.lng, 2))
+               console.log('dataObject', dataObject)
+            var coord = "https://maps.googleapis.com/maps/api/geocode/json?address=" + dataObject.Address + "TX&key=AIzaSyAGcVpoS35RezE4cQzMXcH-M1VdQgZXuw0"
+              coordDat.then(function(data){
+                     newLatitude = data.results[0].geometry.location.lat
+                     newLongitude = data.results[0].geometry.location.lon
+               })     
+                  
+               var hyp = (Math.pow(newLatitude - this.props.lat, 2) + Math.pow(newLongitude - this.props.lng, 2))
                var hypObj = { x: i, y: hyp, z: { dataObject } }
                objArr.push(hypObj)
                hypArr.push(hyp)
@@ -213,20 +158,29 @@ import {NineView} from './nineview'
            return finalArr
        },
 
-        _getListingsJsx: function(resultsArr, i) {
-           var jsxArray = []
-           for (var i = 0; i < this.state.list; i++) {
-               var dataObject = resultsArr[i].z.dataObject
-               var component = <Listing color={i} userLat={this.props.lat} userLon={this.props.lng} listing={dataObject} key={i} />
-               jsxArray.push(component)
+       _subList: function() {
+           this.state.list -= 2
+           this._update()
+       },
+       _changeHash: function(clickEvent) {
+           var label = 'all'
+           var state = ''
+        
+           var query = clickEvent.target.value
+           query = query.split(' ')
+            if(query[1] =='Wisconsin'){
+            state ='Wisconsin'
+           }else {
+            state = 'Texas'
            }
-           return jsxArray
+           query = query[0] 
+           location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}/${state}`
        },
 
-       _goHome: function(clickEVent){
+       _goHome: function(clickEvent){
            location.hash = `${this.props.lat}/${this.props.lng}`
        },
-       
+
        _searchQuery: function(changeEvent) {
            this.setState({search:'false'})
            var label = changeEvent.label
@@ -235,44 +189,33 @@ import {NineView} from './nineview'
            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
            query = ''
        },
-
-       _subList: function() {
-        if(this.props.state === 'Wisconsin'){
-           this.state.list -= 1
-        }else{
-           this.state.list -= 2
-         }
-                this._update()
-       },
-
-        _update: function() {
-           this.setState({
-               more: this.state.more,
-               list: this.state.list
-           })
+   _getListingsJsx: function(resultsArr, i) {
+           var jsxArray = []
+           for (var i = 0; i < this.state.list; i++) {
+               var dataObject = resultsArr[i].z.dataObject
+               var component = <LandfillListing color={i} userLat={this.props.lat} userLon={this.props.lng} listing={dataObject} key={i} />
+               jsxArray.push(component)
+           }
+           return jsxArray
        },
 
        render: function() {
-           var data = this.props.jsonData
-           var hypo = this._findMin(data)
-           var zip={}
+           var data = this.props.jsonData.models
+           var buttonObjTwo = {display: 'inline-block'}
+           if (data.length > 0 && this.props.state === 'Wisconsin') {
+               buttonObjTwo.display = "none"
+               data = this.props.lcm.models
+           }
            var navObj ={}
            var className='pickup'
            var styleObj = { 'display': 'none' }
            var content= <img className="loadingGifThree" src="https://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
-           var title ="recycling centers"
-           var scheduleUrl ="http://mycity.houstontx.gov/public/"
-           if(data.length > 1 && this.props.state === 'Wisconsin'){
-              data = this.props.rcm
-              content =this._findMin(data)
-              scheduleUrl= 'https://www.cityofmadison.com/streets/refuse/collectionlookup.cfm'
-            }
-
-           if(data.length > 1 && this.props.state !== 'Wisconsin'){
+           var title ="landfills"
+           if(data.length > 0){
                content =this._findMin(data)
            }
            if (this.state.list > 1) {
-               styleObj.display = "inline-block"
+               styleObj.display="inline-block"
            }
          
            if(this.props.query === "paper" || this.props.query === 'plastic'|| this.props.query === 'can' || this.props.query === 'cardboard'){
@@ -288,20 +231,12 @@ import {NineView} from './nineview'
                navObj ={display: 'inline-block'}
            }else {
                navObj={}
-
            }
+        
            return (
            <div className="nextContainer">
-               <div style={zip} className={className}>
-                   <button onClick={this._delete} className="pickupX">x </button>
-                    * It looks like your zip code offers recycling pick-up for {this.props.label}!
-                       <p></p>
-                       Click
-                    <a href={scheduleUrl} target="_blank" className="boxLink"> <div className="boxLinkText">here</div> </a>
-                    for scheduling info! 
-               </div>
                <div className="bar">
-               <div className= "dashNavBar">
+               <div  className= "dashNavBar">
                    <button onClick={this._clicked} className="dashButton">d</button>
                    <div style={navObj} className="dashOpenSource">
                        <div> Dump is an open source application.
@@ -311,9 +246,10 @@ import {NineView} from './nineview'
                            </a>.
                        </div>
                    </div>
+                   
                     <div className = "dashElBar">
                       <div className="dashNavEl">
-                      <div className="dashNavElTitle">
+                             <div className="dashNavElTitle">
                    Recycling Centers 
                    </div>
                        <div className="drop"> 
@@ -322,44 +258,44 @@ import {NineView} from './nineview'
                       </div>
                       </div>
                       <div className="dashNavEl">
-                      <div className="dashNavElTitle">
-                    Clothing Donation
+                        <div className="dashNavElTitle">
+                      Clothing Donation
                       </div>
                        <div className="drop"> 
-                      <div  className="dropEl" value="clothing Texas" data-state="Texas" onClick={this._changeHash}>Houston</div>
+                      <div className="dropEl"  value="clothing Texas" data-state="Texas" onClick={this._changeHash}>Houston</div>
                       <div  className="dropEl" value="clothing Wisconsin" data-state="Wisconsin" onClick={this._changeHash}>Madison</div>
                       </div>
                       </div>
-                      <div className="dashNavEl">
-                      <div className="dashNavElTitle">
-                    Toy Donation
-                   </div>
+                      <div  className="dashNavEl">
+                         <div className="dashNavElTitle">
+                      Toy Donation
+                      </div>
                        <div className="drop"> 
                       <div  className="dropEl" value="toy Texas" data-state="Texas" onClick={this._changeHash}>Houston</div>
                       <div className="dropEl" value="toy Wisconsin" data-state="Wisconsin" onClick={this._changeHash}>Madison</div>
                       </div>
                       </div>
                        <div className="dashNavEl">
-                      <div className="dashNavElTitle">
-                    Food Donation
-                   </div>
+                       <div className="dashNavElTitle">
+                      Food Donation
+                      </div>
                        <div className="drop"> 
                       <div  className="dropEl" onClick={this._changeHash} value="food Texas" data-state="Texas" >Houston</div>
                       <div className="dropEl" onClick={this._changeHash} value="food Wisconsin" data-state="Wisconsin" >Madison</div>
                       </div>
                       </div>
                       <div  className="dashNavEl">
-                      <div className="dashNavElTitle">
+                       <div className="dashNavElTitle">
                     Landfills
-                   </div>
+                      </div>
                        <div className="drop"> 
                       <div className="dropEl" onClick={this._changeHash}  value="landfills Texas" data-state="Texas">Houston</div>
                       <div className="dropEl" onClick={this._changeHash} value="landfills Wisconsin" data-state="Wisconsin" >Madison</div>
                       </div>
                       </div>
-                       <button onClick={this._goHome} className="dashHomeButton">home</button>
-                    </div>
-               </div>
+                    <button onClick={this._goHome} className="dashHomeButton">home</button>
+              </div>
+              </div>
                <div className="header"><h1>Dump<div className="listingTitle">{title}</div></h1></div>
                    <Select
                        className="select"
@@ -379,14 +315,12 @@ import {NineView} from './nineview'
                <div className="listingContainer">
                      {content}
                      <button style={styleObj} className="button" updater={this.props.updater} onClick={this._subList}> Less Results</button>
-                     <button className="button" onClick={this._addList}> More Results</button>
+                     <button style={buttonObjTwo}className="button" onClick={this._addList}> More Results</button>
               </div>
-              </div>
+           </div>
            </div>
            )
        }
-
    })
-  
-    
-export {Listing,ListingGrid}
+
+export {LandfillListing,LandfillGrid}

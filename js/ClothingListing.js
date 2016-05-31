@@ -60,7 +60,8 @@ import {Listing,ListingGrid} from './listing'
        },
        render: function() {
            var triangle = ''
-           var url = this.props.listing.image_url
+           var url = 'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + this.props.listing.location.coordinate.latitude  + "," + this.props.listing.location.coordinate.longitude  + '&heading=151.78&pitch=-0.76&key=AIzaSyAlioIpF4LPLreb8s11Mxtsm5CdDbZRkFQ'
+
            var buttonObj = {}
            var detailObj = {}
            var content = ''
@@ -105,16 +106,16 @@ import {Listing,ListingGrid} from './listing'
            }
 
 
-
            return (
                <div>
                    <div  userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
-                       <div className="streetViewContainer">
-                           <img className="streetViewYelp" src={url}/>
-                           <div className="streetViewArrowYelp">
+                    
+                   <div className="wordsContainer">
+                      <div className="streetViewContainer">
+                           <img className="streetView" src={url}/>
+                           <div className="streetViewArrow">
                            </div>
                        </div>
-                   <div className="wordsContainer">
                        <div className="words">
                            <h3 style={hObj} data-lat={this.props.userLat} data-lon={this.props.userLon} data-locLat={this.props.listing.location.coordinate.latitude} data-locLng={this.props.listing.location.coordinate.longitude} data-name={this.props.listing.name}> {this.props.listing.name} </h3>
                            <div className="infoMoreButtonContainer">
