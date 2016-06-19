@@ -124,8 +124,7 @@ import React, {PropTypes, Component} from 'react'
               </div>
                    <div className="header">
                        <h1>Dump<div className="listingTitle"> it!</div></h1>
-                   </div>
-                   </div>
+                  <span>
                    <Select
                        className="select"
                        lat={this.props.lat}
@@ -140,7 +139,11 @@ import React, {PropTypes, Component} from 'react'
                        value=""
                        options={list}
                        onChange={this._searchQuery}    />
+                 <div className ="errorContainer"></div>
+               <div className="listingContainer"></div>
+               </span>
                    <img className="loadingGifTwo" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
+          </div>
           </div>
           )
       }
