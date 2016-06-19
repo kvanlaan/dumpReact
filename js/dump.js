@@ -122,11 +122,10 @@ import React, {PropTypes, Component} from 'react'
                     <button onClick={this._goHome} className="dashHomeButton">home</button>
               </div>
               </div>
-              <span>
                    <div className="header">
                        <h1>Dump<div className="listingTitle"> it!</div></h1>
                    </div>
-                  
+                   </div>
                    <Select
                        className="select"
                        lat={this.props.lat}
@@ -141,8 +140,7 @@ import React, {PropTypes, Component} from 'react'
                        value=""
                        options={list}
                        onChange={this._searchQuery}    />
-                   <img className="loadingGifTwo" src="https://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
-          </span>
+                   <img className="loadingGifTwo" src="http://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
           </div>
           )
       }

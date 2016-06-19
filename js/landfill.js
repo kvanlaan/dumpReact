@@ -17,16 +17,33 @@ import {DumpView} from './dump'
 
    var LandfillListing = React.createClass({
    
-       _getClosest: function(clickEvent) {
-           return (
-                   <div className="listingClosest">*closest to your current location!</div>
-                   )
-       },
+       // _getClosest: function(clickEvent) {
+       //     return (
+       //             <div className="listingClosest">*closest to your current location!</div>
+       //             )
+       // },
        getInitialState: function() {
            return {
                more: 'more',
            }
        },
+
+
+       // _getMap: function(clickEvent) {
+       //     return (
+       //             <img className="mapTwo" src="mapPlace.png"/>
+       //             )
+       // },
+
+
+       // _more: function(clickEvent) {
+       //     if (this.state.more === 'more') {
+       //         this.setState({ more: 'less' })
+       //     } else {
+       //         this.setState({ more: 'more' })
+       //     }
+       // },
+
 
        _triggerMapView: function(clickEvent) {
            var item = clickEvent.target
@@ -42,8 +59,8 @@ import {DumpView} from './dump'
            var styleObjThree ={}
            var buttonObj = {}
            var detailObj = {}
-           var className ="infoDiv"
-           var classNameMat ="infoDivMat"
+      
+         console.log('name', this.props.listing.Name)
            var url ='https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + this.props.listing.Address + '&heading=151.78&pitch=-0.76&key=AIzaSyAlioIpF4LPLreb8s11Mxtsm5CdDbZRkFQ'
            if(this.props.color >0) {
                styleObjThree={display:'inline-block'}
@@ -51,19 +68,14 @@ import {DumpView} from './dump'
              styleObj={width: "100%"}
            }
            if(this.props.color <1) {
-                url = 'westpark.png'
-               styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
-
-               closest = this._getClosest()
-               className = 'infoDivNone'
-               classNameMat ='infoDivNone'
+                // url = 'westpark.png'
+               // className = 'infoDivNone'
+               // classNameMat ='infoDivNone'
                styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
            }
             // if(this.props.color ===1) {
             //     url = 'sunbeam.png'
             // }
-
-        
            return (
                <div>
                    <div userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
@@ -77,7 +89,6 @@ import {DumpView} from './dump'
                                <h3> {this.props.listing.Name} </h3>
                            </div>
                            <div className="buttonContainer">
-                              {closest}
                            <button style={buttonObj} data-index={this.props.color} data-lat={this.props.userLat} data-lon={this.props.userLon}  onClick={this._triggerMapView} className="button"> Get Directions </button>
                            <p className="infoMini"> {"\u2672"}{this.props.listing.Address} <br/> {"\u260E"} {this.props.listing.Phone}</p>
                            </div>
@@ -102,8 +113,7 @@ import {DumpView} from './dump'
        },
        componentDidMount: function() {
            var self = this
-           this.props.jsonData.on('sync', function() { self.forceUpdate() })
-            this.props.lcm.on('sync', function() { self.forceUpdate() })
+           this.props.rc.on('sync', function() { self.forceUpdate() })
        },
 
        _clicked: function(clickEvent){
@@ -129,39 +139,9 @@ import {DumpView} from './dump'
            this.setState({ delete: true})
        },
 
-      _findMin: function(resultsArr, w) {
-           var newLatitude = 0
-           var newLongitude = 0
-           var objArr = []
-           var hypArr = []
-           for (var i = 0; i < resultsArr.length; i++) {
-               var dataObject = resultsArr[i].attributes
-               console.log('dataObject', dataObject)
-            var coord = "https://maps.googleapis.com/maps/api/geocode/json?address=" + dataObject.Address + "TX&key=AIzaSyAGcVpoS35RezE4cQzMXcH-M1VdQgZXuw0"
-            var coordDat = $.get(coord)
-              coordDat.then(function(data){
-                     newLatitude = data.results[0].geometry.location.lat
-                     newLongitude = data.results[0].geometry.location.lon
-               })     
-                  
-               var hyp = (Math.pow(newLatitude - this.props.lat, 2) + Math.pow(newLongitude - this.props.lng, 2))
-               var hypObj = { x: i, y: hyp, z: { dataObject } }
-               objArr.push(hypObj)
-               hypArr.push(hyp)
-           }
-           var hyp = Math.min.apply(Math, hypArr)
-           var list = objArr.sort(function(a, b) {
-               var hypA = (a.y),
-                   hypB = (b.y)
-               return hypA - hypB
-           })
-           var finalArr = this._getListingsJsx(list, i)
-           return finalArr
-       },
-
        _subList: function() {
            this.state.list -= 2
-           this._update()
+                this._update()
        },
        _changeHash: function(clickEvent) {
            var label = 'all'
@@ -169,12 +149,14 @@ import {DumpView} from './dump'
         
            var query = clickEvent.target.value
            query = query.split(' ')
+           console.log(query)
             if(query[1] =='Wisconsin'){
             state ='Wisconsin'
            }else {
             state = 'Texas'
            }
            query = query[0] 
+           console.log('click event', state)
            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}/${state}`
        },
 
@@ -190,10 +172,12 @@ import {DumpView} from './dump'
            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}`
            query = ''
        },
-   _getListingsJsx: function(resultsArr, i) {
+
+       _getListingsJsx: function(data, i) {
            var jsxArray = []
            for (var i = 0; i < this.state.list; i++) {
-               var dataObject = resultsArr[i].z.dataObject
+               var dataObject = data[i].attributes
+               console.log('landfill', dataObject)
                var component = <LandfillListing color={i} userLat={this.props.lat} userLon={this.props.lng} listing={dataObject} key={i} />
                jsxArray.push(component)
            }
@@ -203,17 +187,21 @@ import {DumpView} from './dump'
        render: function() {
            var data = this.props.jsonData.models
            var buttonObjTwo = {display: 'inline-block'}
-           if (data.length > 0 && this.props.state === 'Wisconsin') {
-               buttonObjTwo.display = "none"
-               data = this.props.lcm.models
-           }
+           console.log('landfilldata', data)
+             if(data.length > 0 && this.props.state === 'Wisconsin'){
+            console.log('is madison')
+            buttonObjTwo.display="none"
+            data = this.props.lcm.models
+            console.log(data)
+            }
+
            var navObj ={}
            var className='pickup'
            var styleObj = { 'display': 'none' }
            var content= <img className="loadingGifThree" src="https://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
            var title ="landfills"
            if(data.length > 0){
-               content =this._findMin(data)
+               content =this._getListingsJsx(data)
            }
            if (this.state.list > 1) {
                styleObj.display="inline-block"
@@ -233,7 +221,6 @@ import {DumpView} from './dump'
            }else {
                navObj={}
            }
-        
            return (
            <div className="nextContainer">
                <div className="bar">

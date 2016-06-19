@@ -12,7 +12,7 @@ import {ClothingListing} from './ClothingListing'
    var ClothingGrid = React.createClass({
       componentWillMount: function() {
            var self = this
-           this.props.myd.on('sync', function() { self.forceUpdate() })
+           this.props.yelpData.on('sync', function() { self.forceUpdate() })
        },
 
        _findMin: function(data) {
@@ -109,14 +109,14 @@ import {ClothingListing} from './ClothingListing'
 
 
        render: function() {
-         var data = this.props.yelpData.models
-             if(data.length > 2 && this.props.state === 'Wisconsin'){
+         var data = this.props.yelpData
+             if(this.props.myd.length > 0 && this.props.state === 'Wisconsin'){
             console.log('is madison')
             data = this.props.myd.models
             }
 
            if(data.length > 2 && this.props.state !== 'Wisconsin'){
-             var data = this.props.yelpData.models
+             data = this.props.yelpData.models
            }
            var styleObj = { 'display': 'none' }
            if (this.state.list > 1) {

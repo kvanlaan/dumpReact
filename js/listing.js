@@ -14,7 +14,8 @@ import {ThreeView} from './threeview'
 import {LandfillListing,LandfillGrid} from './landfill'
 import {NineView} from './nineview'
 
-  
+ 
+
    var Listing = React.createClass({
    
        _getClosest: function(clickEvent) {
@@ -138,6 +139,7 @@ import {NineView} from './nineview'
 
    })
   
+
    var ListingGrid = React.createClass({
        getInitialState: function() {
            return {
@@ -159,9 +161,8 @@ import {NineView} from './nineview'
            this._update()
        },
     
-       componentDidMount: function() {
+       componentWillMount: function() {
            var self = this
-           this.props.rc.on('sync', function() { self.forceUpdate() })
            this.props.rcm.on('sync', function() { self.forceUpdate() })
        },
 
@@ -179,6 +180,7 @@ import {NineView} from './nineview'
            var state = ''
            var query = clickEvent.target.value
                query = query.split(' ')
+           console.log(query)
             if(query[1] =='Wisconsin'){
             state ='Wisconsin'
            }else {
@@ -186,6 +188,7 @@ import {NineView} from './nineview'
            }
 
            query = query[0] 
+           console.log('click event', state)
            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}/${state}`
        },
 
@@ -198,6 +201,7 @@ import {NineView} from './nineview'
            var hypArr = []
            for (var i = 0; i < resultsArr.length; i++) {
                var dataObject = resultsArr[i].attributes
+               console.log('dataObject', dataObject)
                var hyp = (Math.pow(dataObject.Lat - this.props.lat, 2) + Math.pow(dataObject.Lon - this.props.lng, 2))
                var hypObj = { x: i, y: hyp, z: { dataObject } }
                objArr.push(hypObj)
@@ -253,8 +257,8 @@ import {NineView} from './nineview'
        },
 
        render: function() {
-           var data = this.props.jsonData
-           var hypo = this._findMin(data)
+        console.log('listinggrid state', this.props.state)
+           var data = this.props.rcm
            var zip={}
            var navObj ={}
            var className='pickup'
@@ -262,13 +266,16 @@ import {NineView} from './nineview'
            var content= <img className="loadingGifThree" src="https://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
            var title ="recycling centers"
            var scheduleUrl ="http://mycity.houstontx.gov/public/"
-           if(data.length > 1 && this.props.state === 'Wisconsin'){
-              data = this.props.rcm
+           if(data.length > 0 && this.props.state === 'Wisconsin'){
+            console.log('is madison')
+              data = data.models
               content =this._findMin(data)
               scheduleUrl= 'https://www.cityofmadison.com/streets/refuse/collectionlookup.cfm'
             }
 
-           if(data.length > 1 && this.props.state !== 'Wisconsin'){
+           if(this.props.rc.length > 0 && this.props.state !== 'Wisconsin'){
+            data = this.props.rc.models
+            console.log('here is the data', data)
                content =this._findMin(data)
            }
            if (this.state.list > 1) {
@@ -360,7 +367,6 @@ import {NineView} from './nineview'
                        <button onClick={this._goHome} className="dashHomeButton">home</button>
                     </div>
                </div>
-               <span>
                <div className="header"><h1>Dump<div className="listingTitle">{title}</div></h1></div>
                    <Select
                        className="select"
@@ -381,15 +387,148 @@ import {NineView} from './nineview'
                      {content}
                      <button style={styleObj} className="button" updater={this.props.updater} onClick={this._subList}> Less Results</button>
                      <button className="button" onClick={this._addList}> More Results</button>
-                     
               </div>
-              </span>
               </div>
            </div>
            )
        }
 
    })
+
+
+ // var MadisonListing = React.createClass({
+ //      getInitialState: function() {
+ //           return {
+ //               more: 'more',
+ //           }
+ //      },
+ //       _more: function(clickEvent) {
+ //           if (this.state.more === 'more') {
+ //               this.setState({ more: 'less' })
+ //           } else {
+ //               this.setState({ more: 'more' })
+ //           }
+ //       },
+ //      render: function() {
+ //           var triangle = ''
+ //           var content = ''
+ //           var closest = ''
+ //           var styleObj ={display: 'inline-block', width: "100%"}
+ //           var buttonObj = {}
+ //           var detailObj = {}
+ //           var className ="infoDiv"
+ //           var classNameMat ="infoDivMat"
+ //           var infoType ={fontWeight: 'bold', textDecoration: 'underline', marginLeft: 0}
+ //           if(this.state.more === 'more'){
+ //               triangle ="\u25B6"
+ //           }
+       
+ //           var url ='https://maps.googleapis.com/maps/api/streetview?size=600x300&location="4602 Sycamore Avenue, WI"&heading=151.78&pitch=-0.76&key=AIzaSyAlioIpF4LPLreb8s11Mxtsm5CdDbZRkFQ'
+
+ //           if (this.state.more === 'less') {
+ //               triangle="\u25BC"
+ //               detailObj = { display: 'block' }
+ //           } else {
+ //               detailObj = { display: "none" }
+ //           }
+ //           var urlTwo ='https://maps.googleapis.com/maps/api/streetview?size=600x300&location="1501 W. Badger Road, WI"&heading=151.78&pitch=-0.76&key=AIzaSyAlioIpF4LPLreb8s11Mxtsm5CdDbZRkFQ'
+ //               // content = this._getMap()
+ //               // closest = this._getClosest()
+ //               // className = 'infoDivNone'
+ //               // classNameMat ='infoDivNone'
+           
+ //          return (
+ //                 <div>
+ //                   <div  className="listing">
+ //                       <div className="wordsContainer">
+ //                           <div className="streetViewContainer">
+ //                               <img className="streetView" src={url}/>
+ //                               <div className="streetViewArrow">
+ //                            </div>
+ //                           </div>
+ //                           <div className="words">
+ //                               <h3> East </h3>
+ //                               <div className="infoMoreButtonContainer">
+ //                                   <button onClick={this._more} className="button">{triangle} {this.state.more} info</button>
+ //                               </div>
+ //                           </div>
+ //                           <div className="buttonContainer">
+ //                           <button style={buttonObj} onClick={this._triggerMapView} className="button"> Get Directions </button>
+ //                           <p className="infoMini"> {"\u2672"}4602 Sycamore Avenue <br/> {"\u260E"} (608) 267-2626</p>
+ //                           </div>
+ //                       </div>
+ //                   </div>
+ //                   <div className="info" style={detailObj}>
+ //                       <div style={styleObj} className="infoWords" >
+ //                           <div className={className}>
+ //                               <div style={infoType}> Hours:</div>
+ //                          Monday 8:30am - 4:30pm
+ //                          Tuesday 8:30am - 8:00pm
+ //                          Wednesday 8:30am - 4:30pm
+ //                          Thursday 8:30am - 8:00pm
+ //                          Friday 8:30am - 4:30pm
+ //                          Saturday 8:30am - 4:30pm
+ //                          Sunday 8:30am - 4:30pm
+ //                            <br/>
+ //                           </div>
+ //                           <div className={className}>
+ //                                <div style={infoType}>Categories:</div>
+ //                                <br/>
+ //                           </div>
+ //                           <div className={classNameMat}>
+ //                               <div style={infoType}>Materials:</div>
+ //                                Keyboards, Misc. Computer Parts, Hard Drives, Scanners, Mouse, Printers, Cash Registers, Cables, Stereo components, Floppy Discs, Carbon Monoxide Detectors, HOLIDAY LIGHTS, Extension cords, VCRs, Cell Phones, Telephones,DVD Players, Video Game Consoles, Ink Jet Cartridges, Misc.Small Appliances, Cameras,CD'S, DVD'S, JEWEL BOXES
+                               
+ //                           </div>
+ //                       </div>
+ //                   </div>
+ //                          <div className="listing" listing={this.props.listing}>
+ //                       <div className="wordsContainer">
+ //                           <div className="streetViewContainer">
+ //                               <img className="streetView" src={urlTwo}/>
+ //                               <div className="streetViewArrow">
+ //                            </div>
+ //                           </div>
+ //                           <div className="words">
+ //                               <h3> West </h3>
+ //                               <div className="infoMoreButtonContainer">
+ //                                   <button onClick={this._more} className="button">{triangle} {this.state.more} info</button>
+ //                               </div>
+ //                           </div>
+ //                           <div className="buttonContainer">
+ //                           <button style={buttonObj} className="button"> Get Directions </button>
+ //                           <p className="infoMini"> {"\u2672"}1501 W. Badger Road<br/> {"\u260E"} (608) 267-2626</p>
+ //                           </div>
+ //                       </div>
+ //                   </div>
+ //                   <div className="info" style={detailObj}>
+ //                       <div style={styleObj} className="infoWords" >
+ //                           <div className={className}>
+ //                               <div style={infoType}> Hours:</div>
+ //                                     Monday 8:30am - 4:30pm
+ //                          Tuesday 8:30am - 8:00pm
+ //                          Wednesday 8:30am - 4:30pm
+ //                          Thursday 8:30am - 8:00pm
+ //                          Friday 8:30am - 4:30pm
+ //                          Saturday 8:30am - 4:30pm
+ //                          Sunday 8:30am - 4:30pm
+ //                               <br/>
+ //                           </div>
+ //                           <div className={className}>
+ //                                <div style={infoType}>Categories:</div>
+ //                               <br/>
+ //                           </div>
+ //                           <div className={classNameMat}>
+ //                               <div style={infoType}>Materials:</div>
+ //                               Keyboards, Misc. Computer Parts, Hard Drives, Scanners, Mouse, Printers, Cash Registers, Cables, Stereo components, Floppy Discs, Carbon Monoxide Detectors, HOLIDAY LIGHTS, Extension cords, VCRs, Cell Phones, Telephones,DVD Players, Video Game Consoles, Ink Jet Cartridges, Misc.Small Appliances, Cameras,CD'S, DVD'S, JEWEL BOXES
+ //                           </div>
+ //                       </div>
+ //                   </div>
+ //               </div>
+ //        )
+
+ //    }
+ //  })
   
     
 export {Listing,ListingGrid}

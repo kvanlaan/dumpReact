@@ -255,28 +255,26 @@ function app() {
     var RecyclingCollection = Backbone.Firebase.Collection.extend({
         initialize: function() {
             this.url = "https://dumpproject.firebaseio.com/centers/2015%20Neighborhood%20Depositories"
-        }
+        },
 
     })
 
     var RecyclingCollectionMad = Backbone.Firebase.Collection.extend({
         initialize: function() {
             this.url = "https://dumpproject.firebaseio.com/madisonCenters/2015%20Neighborhood%20Depositories"
-        }
+        },
+
+        autoSync: true
     })
 
     var YelpFetcher = Backbone.Collection.extend({
-
         url: "https://yelphubb.herokuapp.com/api/yelp",
-
         _setUrl: function(pString){
             this.url += "?"+pString
         },
-
         parse: function(rawData){
             return rawData.businesses
         },
-
         initialize: function(paramsObj){
         var paramStr = ''
         for (var key in paramsObj){
@@ -342,10 +340,8 @@ function app() {
                                      else {
                                 window.alert('Directions request failed due to ' + status);
                                         }
-   
                            }
                            )
-
                             }
                        else {
                      window.alert('No results found');
@@ -353,8 +349,6 @@ function app() {
                            } else {
                            window.alert('Geocoder failed due to: ' + status);  
                                    }
-                              
-                          
                })
            })
 
@@ -362,8 +356,15 @@ function app() {
 
        search: function(lat,lng, query, label, state) {
            var rc = new RecyclingCollection()
-             rc.fetch()
            var rcm = new RecyclingCollectionMad()
+
+           var yelpDataMad = new YelpFetcher({
+               location: 'Madison',
+               term: 'clothing donation',
+               limit: 10,
+               category_filter: ''
+           })
+
            var lc = new LandfillCollection()
            var lcm = new LandfillCollectionMad()
            var yelpData = new YelpFetcher({
@@ -389,15 +390,8 @@ function app() {
                category_filter: ''
            })
 
-           var yelpDataMad = new YelpFetcher({
-               location: 'Madison',
-               term: 'clothing donation',
-               limit: 10,
-               category_filter: ''
-           })
-
            var toyDataMad = new YelpFetcher({
-               location: 'Madiso',
+               location: 'Madison',
                term: 'toy donation',
                limit: 10,
                category_filter: ''
@@ -409,10 +403,11 @@ function app() {
                category_filter: ''
            })
        
-         
+           
            rcm.fetch()
+          yelpDataMad.fetch()
            yelpData.fetch()
-           yelpDataMad.fetch()
+           rc.fetch()
            toyDataMad.fetch()
            toyData.fetch()
            lc.fetch()
@@ -421,11 +416,7 @@ function app() {
            foodDataMad.fetch()
            var jsxArray = []
            var data = []
-           var resultsArr = rc.models
-
-           if(state === 'Wisconsin'){
-            resultsArr = rcm.models
-           } 
+          
            if (query === "toy") {
                DOM.render(<ClothingGrid
                            name={query}
@@ -448,7 +439,7 @@ function app() {
                            rc={rc}
                            yelpData={foodData}
                            fc={foodData}
-                             mtc ={toyDataMad}
+                           mtc ={toyDataMad}
                            mfc ={foodDataMad}
                            myd ={foodDataMad}
                            jsonData={foodData}/>, document.querySelector('.container'))
@@ -513,26 +504,8 @@ function app() {
                            jsonData={lc}/>, document.querySelector('.container'))
            }
 
-           if (query === "recycling"){
-               rc = rc.models
-               rcm = rcm.models
-               DOM.render(<ListingGrid
-                           state={state}
-                           label={label}
-                           query={query}
-                           lat={lat}
-                           lng={lng}
-                           lc={lc}
-                           rc={rc}
-                           tc={toyData}
-                           fc={foodData}
-                           rcm={rcm}
-                           yelpData={yelpData}
-                           jsonData={rc}/>, document.querySelector('.container'))
-           }
-
-
-           if (query !== "dump" && query !== "food" && query !== "clothing" && query !== "toy" && query !== "animal" && query !== "body" && query !== "landfills"&& query !== "recycling") {
+        if (state !== 'Wisconsin' && query !== "dump" && query !== "food" && query !== "clothing" && query !== "toy" && query !== "animal" && query !== "body" && query !== "landfills" && query !== "recycling") {
+         var resultsArr = rc.models
                for (var i = 0; i < resultsArr.length; i++) {
                    var dataObject = resultsArr[i]
                    var categories = dataObject.attributes.Category
@@ -549,34 +522,46 @@ function app() {
                            lat={lat}
                            lng={lng}
                            state={state}
-                           lc={lc}
                            rc={data}
-                           tc={toyData}
-                           fc={foodData}
                            rcm={data}
                            yelpData={yelpData}
                            jsonData={data}/>, document.querySelector('.container'))                         
            }
-       },
+      
+
+           if (query !== "dump" && query !== "food" && query !== "clothing" && query !== "toy" && query !== "animal" && query !== "body" && query !== "landfills" ){
+            console.log('rendering only recycling query')
+               DOM.render(<ListingGrid
+                           state={state}
+                           label={label}
+                           query={query}
+                           lat={lat}
+                           lng={lng}
+                           rc={rc}
+                           rcm={rcm}
+                           jsonData={rc}/>, document.querySelector('.container'))
+           }
+
+        },
 
        home: function(){
-       var rc = new RecyclingCollection()
-       rc.fetch()
+       // var rc = new RecyclingCollection()
+       // rc.fetch()
 
-       var rcm = new RecyclingCollectionMad()
-       rcm.fetch()
-       var lc = new LandfillCollection()
-       lc.fetch()
-       var lcm = new LandfillCollection()
-       lcm.fetch()
-       var toyData = new YelpFetcher({
-           location: 'Houston',
-           term: 'toy donation',
-           limit: 10,
-           category_filter: ''
-       })
+       // var rcm = new RecyclingCollectionMad()
+       // rcm.fetch()
+       // var lc = new LandfillCollection()
+       // lc.fetch()
+       // var lcm = new LandfillCollection()
+       // lcm.fetch()
+       // var toyData = new YelpFetcher({
+       //     location: 'Houston',
+       //     term: 'toy donation',
+       //     limit: 10,
+       //     category_filter: ''
+       // })
 
-       toyData.fetch()
+       // toyData.fetch()
 
            var successCallback = function(positionObject) {
                var lat = positionObject.coords.latitude
@@ -614,7 +599,6 @@ function app() {
                    lat={lat}
                    lng={lng}
                    state={state}
-                   rc={rc}
                     />, document.querySelector('.container'))
                 }
            }
