@@ -220,20 +220,20 @@ function app() {
            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}/${state}`
        },
        render: function() {
+          var content =<img className="loadingGif" src="animated-garbage-bin-image-0004.gif"></img>
+
            var route = window.location.hash.substr(1),
                routeParts = route.split('/')
            var routeLat = routeParts[0],
                routeLng = routeParts[1]
-           var content ={}
-           if (routeLat === ""){
-                 content =<img className="loadingGif" src="https://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
-           } 
-            else{
+
+           if (routeLat !== ""){
                  content = this._getContentJSX(list)
            }
            return (
                <div>
                    {content}
+
                </div>
            )
        }
