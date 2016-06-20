@@ -62,6 +62,7 @@ import {NineView} from './nineview'
            var className ="infoDiv"
            var classNameMat ="infoDivMat"
            var infoType ={fontWeight: 'bold', textDecoration: 'underline', marginLeft: 0}
+
            if(this.state.more === 'more'){
                triangle ="\u25B6"
            }
@@ -145,6 +146,7 @@ import {NineView} from './nineview'
            return {
                search: true,
                list: 1,
+               listMad: 1, 
                delete: false,
                lat: this.props.lat,
                lng: this.props.lng,
@@ -154,8 +156,8 @@ import {NineView} from './nineview'
        },
       _addList: function() {
         if(this.props.state === 'Wisconsin'){
-          this.state.list += 1
-        }else{
+          this.state.listMad += 1
+        } else{
            this.state.list += 2
          }
            this._update()
@@ -219,7 +221,14 @@ import {NineView} from './nineview'
 
         _getListingsJsx: function(resultsArr, i) {
            var jsxArray = []
-           for (var i = 0; i < this.state.list; i++) {
+           var list = 0
+           if(this.props.state === 'Wisconsin'){
+              list = this.state.listMad
+            } else {
+              list = this.state.list
+            }
+
+           for (var i = 0; i < list; i++) {
                var dataObject = resultsArr[i].z.dataObject
                var component = <Listing color={i} userLat={this.props.lat} userLon={this.props.lng} listing={dataObject} key={i} />
                jsxArray.push(component)
@@ -240,9 +249,16 @@ import {NineView} from './nineview'
            query = ''
        },
 
+       _set: function() {
+          this.setState({
+               list: 1,
+               listMad: 1
+           })
+       },
+
        _subList: function() {
         if(this.props.state === 'Wisconsin'){
-           this.state.list -= 1
+           this.state.listMad -= 1
         }else{
            this.state.list -= 2
          }
@@ -252,7 +268,8 @@ import {NineView} from './nineview'
         _update: function() {
            this.setState({
                more: this.state.more,
-               list: this.state.list
+               list: this.state.list,
+               listMad: this.state.listMad
            })
        },
 
@@ -263,6 +280,7 @@ import {NineView} from './nineview'
            var navObj ={}
            var className='pickup'
            var styleObj = { 'display': 'none' }
+           var styleObjTwo = { 'display': 'inline-block' }
            var content= <img className="loadingGifThree" src="https://www.animatedimages.org/data/media/576/animated-garbage-bin-image-0004.gif"></img>
            var title ="recycling centers"
            var scheduleUrl ="http://mycity.houstontx.gov/public/"
@@ -278,10 +296,18 @@ import {NineView} from './nineview'
             console.log('here is the data', data)
                content =this._findMin(data)
            }
-           if (this.state.list > 1) {
+           if(this.props.state !== 'Wisconsin' &&  this.state.list > 1) {
                styleObj.display = "inline-block"
            }
-         
+
+           if(this.props.state === 'Wisconsin' && this.state.listMad > 1) {
+               styleObj.display = "inline-block"
+           }
+
+            if(this.props.state === 'Wisconsin' && this.state.listMad >1){
+               styleObjTwo.display = 'none'
+             }
+        
            if(this.props.query === "paper" || this.props.query === 'plastic'|| this.props.query === 'can' || this.props.query === 'cardboard'){
                 className='pickupTwo'
             } else {
@@ -386,7 +412,7 @@ import {NineView} from './nineview'
                <div className="listingContainer">
                      {content}
                      <button style={styleObj} className="button" updater={this.props.updater} onClick={this._subList}> Less Results</button>
-                     <button className="button" onClick={this._addList}> More Results</button>
+                     <button style={styleObjTwo} className="button" onClick={this._addList}> More Results</button>
               </div>
               </div>
            </div>

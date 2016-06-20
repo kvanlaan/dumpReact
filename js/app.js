@@ -255,16 +255,14 @@ function app() {
     var RecyclingCollection = Backbone.Firebase.Collection.extend({
         initialize: function() {
             this.url = "https://dumpproject.firebaseio.com/centers/2015%20Neighborhood%20Depositories"
-        },
+        }
 
     })
 
     var RecyclingCollectionMad = Backbone.Firebase.Collection.extend({
         initialize: function() {
             this.url = "https://dumpproject.firebaseio.com/madisonCenters/2015%20Neighborhood%20Depositories"
-        },
-
-        autoSync: true
+        }
     })
 
     var YelpFetcher = Backbone.Collection.extend({
