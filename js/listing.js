@@ -90,10 +90,14 @@ import {NineView} from './nineview'
                styleObj ={backgroundColor: 'rgba(255, 255, 255, 0.3)'}
            }
 
-            if(this.props.color ===1) {
+            if(this.props.color === 1) {
                 url = 'sunbeam.png'
             }
-         
+
+             if(typeof url === 'undefined') {
+                url = 'sunbeam.png'
+            }
+          console.log('url', url)
            return (
                <div>
                    <div userLon={this.props.userLon} userLat={this.props.userLat} className="listing" listing={this.props.listing}>
@@ -182,7 +186,6 @@ import {NineView} from './nineview'
            var state = ''
            var query = clickEvent.target.value
                query = query.split(' ')
-           console.log(query)
             if(query[1] =='Wisconsin'){
             state ='Wisconsin'
            }else {
@@ -190,7 +193,6 @@ import {NineView} from './nineview'
            }
 
            query = query[0] 
-           console.log('click event', state)
            location.hash = `${this.props.lat}/${this.props.lng}/${query}/${label}/${state}`
        },
 
@@ -203,7 +205,6 @@ import {NineView} from './nineview'
            var hypArr = []
            for (var i = 0; i < resultsArr.length; i++) {
                var dataObject = resultsArr[i].attributes
-               console.log('dataObject', dataObject)
                var hyp = (Math.pow(dataObject.Lat - this.props.lat, 2) + Math.pow(dataObject.Lon - this.props.lng, 2))
                var hypObj = { x: i, y: hyp, z: { dataObject } }
                objArr.push(hypObj)
